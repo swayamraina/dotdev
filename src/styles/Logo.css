@@ -1,0 +1,65 @@
+
+.arrow {
+    cursor: pointer;
+    height: 120px;
+    left: 48%;
+    position: absolute;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    transition: transform .1s;
+    width: 80px;
+    align-self: center;
+}
+
+.arrow-left, .arrow-right {
+    background-color: #666;
+    height: 4px;
+    left: -5px;
+    position: absolute;
+    top: 50%;
+    width: 100%;
+}
+
+.arrow-left {
+    left: -6px;
+    top: 46%;
+    transform: rotate(45deg);
+    transform-origin: bottom right;
+}
+
+.arrow-right {
+    transform: rotate(135deg);
+    transform-origin: top right;
+}
+
+.arrow-left:after, .arrow-right:after {
+    background-color: greenyellow;
+    content: '';
+    height: 100%;
+    position: absolute;
+    top: 0;
+    transition: all 0.15s;
+}
+
+.arrow-left:after {
+    left: 100%;
+    right: 0;
+    transition-delay: 0s;
+}
+  
+.arrow-right:after {
+    left: 0;
+    right: 100%;
+    transition-delay: 0.15s;
+}
+
+.arrow:hover .arrow-left:after {
+    left: 0;
+    transition-delay: 0.15s;
+}
+
+.arrow:hover .arrow-right:after {
+    right: 0;
+    transition-delay: 0s;
+}
+  

@@ -1,0 +1,75 @@
+.event {
+    display: flex;
+    vertical-align: middle;
+}
+
+.event-time {
+    align-content: center;
+    border-radius: 7px;
+    border: 2px solid greenyellow;
+    color: white;
+    padding: 0.4% 0 0.4% 1.5%;
+    font-weight: bolder;
+    font-size: 13px;
+    height: 2%;
+    width: 6%;
+    margin-top: 0.3%;
+    margin-right: 3%;
+}
+
+.col-1 {
+    margin-left: 31px;
+}
+
+.col-2 {
+    margin-left: 10%;
+}
+
+.event-vertical-bar {
+    width: 5px;
+    height: 100%;
+    margin-left: 40%;
+    margin-bottom: -2px;
+    margin-top: -2px;
+    border-right: 2px solid greenyellow;
+    border-left: 2px solid greenyellow;
+}
+
+.event-circle {
+    z-index: 1;
+    border-radius: 50%;
+    background-color: black;
+    height: 35px;
+    width: 35px;
+    border: 2px solid greenyellow;
+}
+
+.event-text {
+    border-radius: 10px;
+    padding: 1%;
+    width: 50%;
+    height: 80%;
+    margin-bottom: 3%;
+    border-left: 1px solid greenyellow;
+    border-bottom: 1px solid greenyellow;
+}
+
+.event-title {
+    color: white;
+    margin-bottom: 1%;
+}
+
+.event-location {
+    display: flex;
+    justify-content: flex-end;
+    color: white;
+    margin-bottom: 3%;
+}
+
+.event-content {
+    color: white;
+}
+
+.event-items {
+    color: white;
+}

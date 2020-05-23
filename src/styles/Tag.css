@@ -1,0 +1,8 @@
+.tag-item {
+    display: inline-flex;
+    flex-wrap: wrap;
+    float: left;
+    border: solid 1px greenyellow;
+    border-radius: 10%;
+    padding: 0.4% 1% 0.4% 1%;
+}

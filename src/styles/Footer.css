@@ -1,0 +1,8 @@
+.footer {
+    margin-top: 3%;
+    color: greenyellow;
+    display: flex;
+    justify-content: center;
+    vertical-align: middle;
+    padding: 2%
+}

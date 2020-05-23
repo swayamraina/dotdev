@@ -1,0 +1,29 @@
+.home-logo {
+    color: greenyellow;
+    position: absolute;
+    left: 2%;
+    font-size: 1.4rem;
+}
+
+.nav-bar {
+    position: sticky;
+    top: 0px;
+    width: 100%;
+    padding: 2% 0% 2% 2%;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 5%;
+}
+
+.nav-link {
+    margin-right: 4%;
+    float: left;
+    color: greenyellow;
+    font-size: 1.4rem;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: ivory;
+    font-size: 1.4rem;
+}

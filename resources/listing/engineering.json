@@ -3,7 +3,7 @@
         {
             "title": "Are we using Dependency Injection correctly?",
             "description": "Dependency injection, the right way!",
-            "link": "/blogs/engineering/2018/dependency-injection.html",
+            "link": "/blogs/engineering/2018/dependency-injection",
             "tags": [ "dependency injection", "java", "memory management" ],
             "date": "23.10.2018"
         }

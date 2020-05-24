@@ -1,0 +1,31 @@
+.vertical-line-top {
+    border: solid 1px greenyellow;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top: 5%;
+    margin-bottom: 1%;
+}
+
+.vertical-line-bottom {
+    border: solid 1px greenyellow;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 5%;
+    margin-top: 3%;
+}
+
+.post-title {
+    margin-left: 25%;
+}
+
+.post-date {
+    margin-left: 25%;
+}
+
+.post-description {
+    margin-left: 25%;
+}
+
+.post-tags {
+    margin-left: 25%;
+}

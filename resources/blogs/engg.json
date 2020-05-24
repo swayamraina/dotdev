@@ -1,0 +1,20 @@
+{
+    "latest": [
+        {
+            "title": "Are we using Dependency Injection correctly?",
+            "description": "Dependency injection, the right way!",
+            "link": "",
+            "tags": [ "dependency injection", "java", "memory management" ],
+            "date": "23.10.2018"
+        }
+    ],
+    "all": [
+        {
+            "title": "Are we using Dependency Injection correctly?",
+            "description": "Dependency injection, the right way!",
+            "link": "",
+            "tags": [ "dependency injection", "java", "memory management" ],
+            "date": "23.10.2018"
+        }
+    ]
+}

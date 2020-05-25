@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Tag from '../components/Tag'
 
@@ -10,22 +11,21 @@ function Post (props) {
 
     return (
         <div className="post">
-
-            <div className="vertical-line-top" />
-
-            <div className="post-title">{props.title}</div>
-            <div className="post-date">{props.date}</div>
-            <div className="post-description">{props.description}</div>
-            <div className="post-tags">
-                {
-                    props.tags.map ( 
-                        t => <Tag key={t} text={t} />
-                    )
-                }
-            </div>
-
-            <div className="vertical-line-bottom" />
-
+            <Link to={props.link} className="post-link">
+                <div className="post-head">
+                    <div className="post-title">{props.title}</div>
+                    <div className="post-date">{props.date}</div>
+                </div>
+                <div className="post-description">{props.description}</div>
+                <div className="post-tags">
+                    {
+                        props.tags.map ( 
+                            t => <Tag key={t} text={t} />
+                        )
+                    }
+                </div>
+                <div className="vertical-line-bottom" />
+            </Link>
         </div>
     );
 

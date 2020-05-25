@@ -1,0 +1,15 @@
+.book {
+    display: flex;
+}
+
+.book-cover {
+    height: 300px;
+    width: 22%;
+    background-size: cover;
+}
+
+.book-desc {
+    list-style: none;
+    margin-top: 3%;
+    width: 70%;
+}

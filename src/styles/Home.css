@@ -1,0 +1,63 @@
+.profile-pic {
+    border-radius: 50%;
+    height: 220px;
+    width: 220px;
+    margin-left: 11%;
+    margin-bottom: 4%;
+    padding: 4px;
+    border-top: solid 2px white;
+    border-left: solid 2px black;
+    border-bottom: solid 2px black;
+    border-right: solid 2px black;
+}
+
+.profile-pic-container {
+    margin-top: 3%;
+    margin-right: 10%;
+    height: 220px;
+    width: 220px;
+}
+
+.home-desc {
+    margin-left: 15%;
+    margin-bottom: 6%;
+    display: flex;
+}
+
+.home-desc-text {
+    width: 50%;
+}
+
+.divider {
+    margin-bottom: 6%;
+    margin-left: 25%;
+    display: flex;
+}
+
+.bar {
+    border: dashed 1px black;
+    width: 50%;
+    height: 10%;
+    margin-top: 0.7%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.timeline {
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.timeline a {
+    color: red;
+}
+
+.timeline-event {
+    margin-bottom: 5%;
+}
+
+.timeline-heading {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    margin-bottom: 1.5%;
+}

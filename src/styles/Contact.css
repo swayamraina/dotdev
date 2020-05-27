@@ -1,0 +1,66 @@
+
+.contact-desc {
+    margin-left: 10%;
+    margin-bottom: 3%;
+    display: flex;
+}
+
+.contact-desc-quote {
+    font-family: 'Reem Kufi';
+    font-style: italic;
+    margin-top: 3%;
+    margin-left: -3%;
+    font-size: 1.5rem;;
+}
+
+.contact-desc-form {
+    margin-left: 15%;
+    width: 25%;
+}
+
+.contact-desc-form-block-1 {
+    margin-top: 4%;
+}
+
+.contact-desc-form-block {
+    margin-top: 20%;
+}
+
+.contact-desc-form-input {
+    margin-top: 2%;
+    width: 100%;
+    padding: 2%;
+    border: none;
+    border-bottom: 2px solid black;
+    font-size: 1rem;
+}
+
+.area {
+    height: 75px;
+    resize: none;
+}
+
+.contact-desc-form-input:focus {
+    outline: none;
+}
+
+.contact-desc-submit {
+    margin-top: 10%;
+    margin-left: 75%;
+    width: inherit;
+    border: 2px solid black;
+    border-radius: 10px;
+    text-align: center;
+    padding: 2%;
+    cursor: pointer;
+}
+
+.contact-links {
+    display: flex;
+    justify-content: center;
+}
+
+.contact-icon {
+    margin-left: 3%;
+    cursor: pointer;
+}

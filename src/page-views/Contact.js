@@ -9,10 +9,10 @@ function Contact () {
     return (
         <div className="contact">
             <div className="contact-desc">
-                <div>
+                <div className="deadpool">
                     <img src="https://raw.githubusercontent.com/swayamraina/swayamraina.github.io/master/resources/images/deadpool.png" alt="deadpool" />
+                    <div className="contact-desc-quote">I am so thrilled, <br/> you want to contact me!</div>
                 </div>
-                <div className="contact-desc-quote">I am so thrilled, <br/> you want to contact me!</div>
                 <div className="contact-desc-form">
                     <div className="contact-desc-form-block-1">
                         <div>name</div>

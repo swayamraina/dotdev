@@ -5,16 +5,20 @@
     display: flex;
 }
 
+.deadpool {
+    width: 60%;
+    display: flex;
+}
+
 .contact-desc-quote {
     font-family: 'Reem Kufi';
     font-style: italic;
     margin-top: 3%;
     margin-left: -3%;
-    font-size: 1.5rem;;
+    font-size: 1.5rem;
 }
 
 .contact-desc-form {
-    margin-left: 15%;
     width: 25%;
 }
 

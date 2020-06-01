@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import Home from './containers/Home.js'
-import LandingPage from './containers/LandingPage.js';
-
-import './App.css';
+import Main from './page-views/Main.js'
+import LandingPage from './page-views/LandingPage.js';
 
 
 
@@ -11,16 +9,20 @@ function App () {
 
     const [ landingPage, setLandingPage ] = useState(true);
 
+    useEffect ( () => { setTimeout(moveToHome, 5000) })
+
     const moveToHome = () => {
         setLandingPage(false);
     }
 
     const render = () => {
-        return landingPage ? <LandingPage onClick={moveToHome} /> : <Home />
+        return landingPage ? <LandingPage onClick={moveToHome} /> : <Main />
     }
     
     return (
-       render()
+       <div className="app">
+           { render() }
+       </div>
     );
 
 }

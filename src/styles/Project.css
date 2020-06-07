@@ -1,0 +1,28 @@
+.project {
+    display: flex;
+    cursor: pointer;
+    margin-bottom: 10%;
+    padding-left: 2%;
+    border-left: dashed 3px black;
+}
+
+.project-desc {
+    width: 80%;
+}
+
+.project-desc-title {
+    margin-bottom: 1%;
+}
+
+.project-desc-desc {
+    margin-bottom: 5%;
+}
+
+.project-desc-tags {
+    margin-bottom: 1%;
+}
+
+.project-link {
+    text-decoration: none;
+    color: black;
+}

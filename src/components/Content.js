@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import Loader from '../components/Loader'
 
-import '../styles/Content.css'
-
 
 
 function Content (props) {

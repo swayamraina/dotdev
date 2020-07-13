@@ -2,7 +2,7 @@
   "name": "dot-dev",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.swayamraina.github.io",
+  "homepage": "https://www.swayamraina.github.io/",
   "dependencies": {
     "fs": "0.0.1-security",
     "gh-pages": "^3.0.0",

@@ -2,7 +2,7 @@ import React from 'react';
 
 import NavBar from '../containers/NavBar.js'
 import Body from '../containers/Body.js'
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 
 
@@ -10,10 +10,10 @@ function Main () {
     
     return (
         <div>
-            <BrowserRouter>
+            <HashRouter >
                 <NavBar />
                 <Body />
-            </BrowserRouter>
+            </HashRouter>
         </div>
     );
 

@@ -1,7 +1,7 @@
 <div>
 
     <br/><br/>
-    <h3>Abstraction is good for business, Evil for engineers ...</h3>
+    <h3>Abstraction is good for business, Evil for engineers</h3>
 
     <p>
         In this software industry we are often told about important concepts like separation of concern, abstraction and modularity.
@@ -105,10 +105,10 @@
         a file descriptor for maintaining references to open socket resources.<br/>
         You can see these file descriptors by running the following commands,
         <br/><br/>
-        <code>
+        <div class="quote">
             ps -ef | grep '&lt;process name&gt;'<br/>
             ls -li /proc/&lt;pid&gt;/fd/
-        </code>
+        </div>
 
 
         <br/><br/>
@@ -118,13 +118,13 @@
         the internet over ethernet cables. <br/>
         You can see the network card info by running the following command,
         <br/><br/>
-        <code>
+        <div class="quote">
             lspci | egrep -i --color 'network|ethernet'
-        </code>
+        </div>
 
         <br/><br/>
         <img 
-            className="image"
+            class="image"
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Network_card.jpg/440px-Network_card.jpg"
         />
         <br/><br/>
@@ -171,8 +171,8 @@
 
     <br/><br/><br/><br/>
     <img 
-        className="image"
-        src="https://raw.githubusercontent.com/swayamraina/dotdev/tech-blog/file-descriptors-and-networking/resources/blogs/images/nic-kernel.png"
+        class="image"
+        src="https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/blogs/images/nic-kernel.png"
     />
     <br/><br/>
 
@@ -197,5 +197,10 @@
             <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L2015">TCP receive message implementation</a></li>
         </ul>
     </p>
+
+    <br/><br/><br/><br/>
+    <h2 class="end-quote">
+        "Stay hungry, Stay foolish..."
+    </h2>
 
 </div>

@@ -1,5 +1,6 @@
 <div>
 
+    <br/><br/>
     <h3>Abstraction is good for business, Evil for engineers ...</h3>
 
     <p>
@@ -17,17 +18,21 @@
     <p>
         In a nutshell, it is always a good idea to separate your functionalities using modules and abstract things out. One must remember 
         nothing comes free and with this decision of making things modular and abstracted out has its own costs. One non-performance 
-        based cost is lack of understanding and knowledge. <br/>
+        based cost is lack of understanding and knowledge. 
+        <br/><br/>
         Since a particular stack engineer is only working in improving his own area of concern, there is loss (or degradation) of 
-        knowledge of how a change in a particular module might affect the dependent modules. <br/>
+        knowledge of how a change in a particular module might affect the dependent modules. 
+        <br/><br/>
         The network and deployment stack is generally hidden from an application developer and this leads to helplessness when a network 
         issue is observed by the application owner. This modularity no doubt avoids tight coupling in the code but does introduces tight 
-        coupling across people and stack owners. <br/>
+        coupling across people and stack owners. 
+        <br/><br/>
         This I believe can be seen even more in people who have not witnessed the evolution of technonlogy stacks and basically fail to 
         understand why a piece of technology was replaced by this new piece of technology.
     </p>
 
 
+    <br/><br/>
     <h3>Introduction</h3>
 
     <p>
@@ -61,7 +66,8 @@
         <br/><br/>
 
 
-        <h4>HTTP lib</h4>
+        <br/><br/>
+        <h3>HTTP library</h3>
 
         Most of the codebases use one or the other popular HTTP library for handling the outbound service requests. One common 
         feature of these libraries is resource pooling (for HTTP requests, thread is the required kernel resource). These libs 
@@ -85,7 +91,8 @@
         </ul>
 
 
-        <h4>Thread interaction with kernel</h4>
+        <br/><br/>
+        <h3>Thread interaction with kernel</h3>
 
         Inside the kernel everything is treated as a file, even the communication interface. If two processes want to communicate be it 
         within the same machine or across machines, they need an interface for communication. For networks, this communnication 
@@ -99,12 +106,13 @@
         You can see these file descriptors by running the following commands,
         <br/><br/>
         <code>
-            ps -ef | grep '&lt;process name&gt;'    // will give pid <br/>
+            ps -ef | grep '&lt;process name&gt;'<br/>
             ls -li /proc/&lt;pid&gt;/fd/
         </code>
 
 
-        <h4>Network Interface (NIC)</h4>
+        <br/><br/>
+        <h3>Network Interface (NIC)</h3>
 
         NIC is the actual hardware device which transfers the data from the machine on which the application is running to 
         the internet over ethernet cables. <br/>
@@ -115,23 +123,29 @@
         </code>
 
         <br/><br/>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Network_card.jpg/440px-Network_card.jpg"/>
+        <img 
+            className="image"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Network_card.jpg/440px-Network_card.jpg"
+        />
         <br/><br/>
 
         Before we look at the control flow lets talk about the final piece i.e. the 
         <a href="https://en.wikipedia.org/wiki/Direct_memory_access">DMA (Direct Memory Access)</a> Controller. <br/>
         The data movement from file-descriptors to NIC or NIC to file descriptors majorly happens without the involvement of the CPU 
-        via the DMA controller. <br/>
+        via the DMA controller. 
+        <br/><br/>
         As you know, the linux kernel works on the interrupt based model where the threads (processes) are interrupted on events to 
         hand-over the CPU for some other thread (or process). This interrupt based handling results in what we call <b>context switches</b>. 
         And just like thread creation context-switch is also a very slow operation as this involves shifting the entire stack and register 
-        variables to memory and restoring the incoming thread's stack and register variables. <br/>
+        variables to memory and restoring the incoming thread's stack and register variables. 
+        <br/><br/>
         To avoid interrupts to CPU even when the data transfer is yet to happen, data transfer happens via a separate hardware line 
         controlled by the DMA controller. 
 
     </p>
 
     
+    <br/><br/>
     <h3>Control flow</h3>
 
     DMA has internal buffers called RX/TX ring buffers. 
@@ -156,7 +170,10 @@
     API calls are handled.
 
     <br/><br/><br/><br/>
-    <img src="https://raw.githubusercontent.com/swayamraina/dotdev/tech-blog/file-descriptors-and-networking/resources/blogs/images/nic-kernel.png"/>
+    <img 
+        className="image"
+        src="https://raw.githubusercontent.com/swayamraina/dotdev/tech-blog/file-descriptors-and-networking/resources/blogs/images/nic-kernel.png"
+    />
     <br/><br/>
 
     <p>

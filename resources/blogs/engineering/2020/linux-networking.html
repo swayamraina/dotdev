@@ -1,0 +1,206 @@
+<div>
+
+    <br/><br/>
+    <h3>Abstraction is good for business, Evil for engineers</h3>
+
+    <p>
+        In this software industry we are often told about important concepts like separation of concern, abstraction and modularity.
+        The major idea about these is not only to reduce coupling between variuos modules in the software stack but 
+        also fast-track the development cycle. 
+    </p>
+    <p>
+        Imagine starting to build a new service and having to write a ISR (interrupt service routine) to capture data from the 
+        <a href="https://en.wikipedia.org/wiki/Network_interface_controller">NIC</a> and send it to your application code. 
+        You would have got the idea that if these 3 things (separation of concern, abstractions and modularity) are not followed, 
+        development cycle is very-very significantly strtched and release dates pushed from few weeks to few months which the 
+        business would not like to hear.
+    </p>
+    <p>
+        In a nutshell, it is always a good idea to separate your functionalities using modules and abstract things out. One must remember 
+        nothing comes free and with this decision of making things modular and abstracted out has its own costs. One non-performance 
+        based cost is lack of understanding and knowledge. 
+        <br/><br/>
+        Since a particular stack engineer is only working in improving his own area of concern, there is loss (or degradation) of 
+        knowledge of how a change in a particular module might affect the dependent modules. 
+        <br/><br/>
+        The network and deployment stack is generally hidden from an application developer and this leads to helplessness when a network 
+        issue is observed by the application owner. This modularity no doubt avoids tight coupling in the code but does introduces tight 
+        coupling across people and stack owners. 
+        <br/><br/>
+        This I believe can be seen even more in people who have not witnessed the evolution of technonlogy stacks and basically fail to 
+        understand why a piece of technology was replaced by this new piece of technology.
+    </p>
+
+
+    <br/><br/>
+    <h3>Introduction</h3>
+
+    <p>
+        Since most of the software development work is around application development and solving business use-cases, people partially 
+        neglect the network and OS stack. This post is around the network/kernel layer which works closely with the application to make 
+        the application work.
+    </p>
+    <p>
+        First let's define all the parts of the application stack,
+        <ul>
+            <li>Application code</li>
+            <ul>
+                <li>HTTP library</li>
+                <ul>
+                    <li>Thread</li>
+                    <li>Socket</li>
+                </ul>
+            </ul>
+            <li>Kernel code</li>
+            <ul>
+                <li>Socket</li>
+                <li>File Descriptor</li>
+                <li>NIC</li>
+                <li>DMA</li>
+            </ul>
+        </ul>
+    </p>
+
+    <p>
+        We'll go through the complete stack to understand the data-flow
+        <br/><br/>
+
+
+        <br/><br/>
+        <h3>HTTP library</h3>
+
+        Most of the codebases use one or the other popular HTTP library for handling the outbound service requests. One common 
+        feature of these libraries is resource pooling (for HTTP requests, thread is the required kernel resource). These libs 
+        use pooling to avoid degraded performance.
+        <br/><br/>
+        Why degradation you ask? <br/>
+        Creating a thread on the fly is a very slow operation, as this requires control transfer between the user-space and kernel-space. 
+        To prevent any control handover from user to kernel space, these libraries create some desired number of threads on initialisation and 
+        reuse them as needed. <br/>
+        The idea is to make as few system calls as possible at runtime. 
+        <br/><br/>
+        Why do we need threads? <br/>
+        In reality a HTTP lib is nothing but a thread pool talking with the kernel socket API. <br/>
+        One should regularly revisit the following HTTP lib threadpool properties,
+        <ul>
+            <li>http.connection-manager.max-per-host</li>
+            <li>http.connection-manager.max-total</li>
+            <li>http.socket.sendbuffer</li>
+            <li>http.socket.receivebuffer</li>
+            <li>http.tcp.nodelay</li>
+        </ul>
+
+
+        <br/><br/>
+        <h3>Thread interaction with kernel</h3>
+
+        Inside the kernel everything is treated as a file, even the communication interface. If two processes want to communicate be it 
+        within the same machine or across machines, they need an interface for communication. For networks, this communnication 
+        interface is nothing but a socket descriptor. <br/>
+        A socket descriptor is type of file descriptor with some additional data structures. (You can read more about file-descriptors 
+        <a href="">here</a>) 
+        <br/><br/>
+        Sockets are created when the process needs to communicate with some other process. In our case, this happens via the HTTP library.
+        So for every thread created by the HTTP library a socket is created under the hood and with every socket creation the kernel creates 
+        a file descriptor for maintaining references to open socket resources.<br/>
+        You can see these file descriptors by running the following commands,
+        <br/><br/>
+        <div class="quote">
+            ps -ef | grep '&lt;process name&gt;'<br/>
+            ls -li /proc/&lt;pid&gt;/fd/
+        </div>
+
+
+        <br/><br/>
+        <h3>Network Interface (NIC)</h3>
+
+        NIC is the actual hardware device which transfers the data from the machine on which the application is running to 
+        the internet over ethernet cables. <br/>
+        You can see the network card info by running the following command,
+        <br/><br/>
+        <div class="quote">
+            lspci | egrep -i --color 'network|ethernet'
+        </div>
+
+        <br/><br/>
+        <img 
+            class="image"
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Network_card.jpg/440px-Network_card.jpg"
+        />
+        <br/><br/>
+
+        Before we look at the control flow lets talk about the final piece i.e. the 
+        <a href="https://en.wikipedia.org/wiki/Direct_memory_access">DMA (Direct Memory Access)</a> Controller. <br/>
+        The data movement from file-descriptors to NIC or NIC to file descriptors majorly happens without the involvement of the CPU 
+        via the DMA controller. 
+        <br/><br/>
+        As you know, the linux kernel works on the interrupt based model where the threads (processes) are interrupted on events to 
+        hand-over the CPU for some other thread (or process). This interrupt based handling results in what we call <b>context switches</b>. 
+        And just like thread creation context-switch is also a very slow operation as this involves shifting the entire stack and register 
+        variables to memory and restoring the incoming thread's stack and register variables. 
+        <br/><br/>
+        To avoid interrupts to CPU even when the data transfer is yet to happen, data transfer happens via a separate hardware line 
+        controlled by the DMA controller. 
+
+    </p>
+
+    
+    <br/><br/>
+    <h3>Control flow</h3>
+
+    DMA has internal buffers called RX/TX ring buffers. 
+    <ul>
+        <li>RX ring buffer is a circular buffer for receiving data</li>
+        <li>TX ring buffer is a circular buffer for transmitting data</li>
+    </ul> 
+    
+    Whenever data is received by the NIC (from the ethernet cables), it writes the data in the shared memory buffer and writes 
+    the address of this data into the RX buffer. After the data transfer happens via DMA, The device can issue an interrupt to the CPU 
+    conveyinng the completionn of data transfer. <br/>
+    To read the data, the kernel first fetches the address from the RX buffer and copies the data from the shared memory buffer 
+    to the socket receive buffer. The application then read the data from these buffers (by copying the data to its local buffer) 
+    and process the request.
+    <br/><br/>
+    In case of transmitting the response, the application writes the response data into the socket send buffer initially. The kernel then 
+    copies this data to the shared memory and adds the address in the TX ring buffer. <br/>
+    The device driver on seeing data, issues requests for DMA controller to add the addresses to the NIC registers. The NIC then reads 
+    the data from shared buffers and transmits the service response out via the ethernet cables. 
+    <br/><br/>
+    When we talk about S2S (server-to-server) API calls we generally talk about TCP requests. Here I have only talked about how TCP 
+    API calls are handled.
+
+    <br/><br/><br/><br/>
+    <img 
+        class="image"
+        src="https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/blogs/images/nic-kernel.png"
+    />
+    <br/><br/>
+
+    <p>
+        For the more curious folks, <br/>
+        You can checkout the linux source from <a href="https://github.com/torvalds/linux">here</a> <br/>
+        just a FYI, the linux source code is around 8 GB in size
+        <br/><br/>
+        Below are references to a few important files you might want to look at,
+        <ul>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L112">socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/skbuff.h#L711">socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/net/sock.h#L346">network socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/net.h">socket network protocol</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/socket.c#L1357">create socket implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L944">file descriptor data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L636">inode data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L59">socket types</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/tcp.h#L142">TCP socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/core/sock.c#L2377">socket send message implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L1436">TCP send message implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L2015">TCP receive message implementation</a></li>
+        </ul>
+    </p>
+
+    <br/><br/><br/><br/>
+    <h2 class="end-quote">
+        "Stay hungry, Stay foolish..."
+    </h2>
+
+</div>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import Loader from '../components/Loader'
 
+import '../styles/Content.css'
+
 
 
 function Content (props) {
@@ -13,7 +15,7 @@ function Content (props) {
     const year = props.match.params.year
     const page = props.match.params.page
 
-    const url = `https://raw.githubusercontent.com/swayamraina/swayamraina.github.io/master/resources/blogs/${type}/${year}/${page}.html`
+    const url = `https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/blogs/${type}/${year}/${page}.html`
 
     const handleSuccess = (data) => {
         setContent(data)

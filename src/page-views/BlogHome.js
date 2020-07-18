@@ -16,8 +16,9 @@ function BlogHome (props) {
     const [ posts, setPosts ] = useState([])
 
     const handleSuccess = (data) => {
+        data.all.reverse()
         setLatest(data.all.splice(0,1))
-        setPosts(data.all.splice(1))
+        setPosts(data.all.splice(0))
         setTimeout( () => setLoding(false), 500)
     }
 
@@ -28,7 +29,7 @@ function BlogHome (props) {
     useEffect (
         () => {
             setLoding(true)
-            fetch(`https://raw.githubusercontent.com/swayamraina/swayamraina.github.io/master/resources/listing/${type}.json`)
+            fetch(`https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/listing/${type}.json`)
             .then(res => res.json())
             .then((data) => handleSuccess(data), () => handleError())
         }, [type]
@@ -47,7 +48,7 @@ function BlogHome (props) {
                             p => <Post 
                                     key = {p.title}
                                     title = {p.title}
-                                    description = {p.descriptiion}
+                                    description = {p.description}
                                     date = {p.date}
                                     tags = {p.tags}
                                     link = {p.link}
@@ -62,7 +63,7 @@ function BlogHome (props) {
                             p => <Post 
                                     key = {p.title}
                                     title = {p.title}
-                                    description = {p.descriptiion}
+                                    description = {p.description}
                                     date = {p.date}
                                     tags = {p.tags}
                                     link = {p.link}

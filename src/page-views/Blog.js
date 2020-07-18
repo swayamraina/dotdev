@@ -54,7 +54,7 @@ function Blog () {
                 </div>
                 <div className="book-holder">
                     <Book 
-                        cover="https://raw.githubusercontent.com/swayamraina/swayamraina.github.io/master/resources/books/images/pleasure-of-finding-things-out.jpg" 
+                        cover="https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/books/images/pleasure-of-finding-things-out.jpg" 
                         title="The pleasure of finding things out"
                         author="Richard P. Feyman"
                         description="When I was young, I was introduced to this book when our school quiz team won 1st prize on National Science

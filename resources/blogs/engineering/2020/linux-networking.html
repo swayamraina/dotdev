@@ -1,0 +1,36 @@
+<div>
+
+    Suppose you have two services, user-service (which handles authentication) and your feature-service 
+    (which provides the feature to your clients). As soon as you receive the request from the user, as 
+    first step you would always want to authenticate the user request.
+    So here is how the end-to-end flow looks like,
+    <ol>
+        <li>You receive the user request with all the neccesarry data</li>
+        <li>The feature-service creates the request object as per the API contract with user-srvice</li>
+        <li>feature-service passes all the HTTP request data (type, url, data) to the HTTP lib being used</li>
+    </ol>
+    
+    <ol>
+        <li>the lib creates a socket to initiate the connection</li>
+        <li>the lib records this socket-id and sends the (ip, port, socket-id, ...) to establish a TCP connection</li>
+        <li>the user-service makes accepts this request, creates a socket at its end and makes a note of the incoming 
+            socket-id (generally servers implement resource pooling and an idle socket is used) to this assigned socket</li>
+        <li>the user-service returns its socket-id in the ACK response and the connection is established</li>
+        <li>the lib copies the data from service buffer to the socket send buffer</li>
+        <li>the kernel moves this data to one of the avaialble TX ring buffers</li>
+        <li>the kernel writes the address pointer of this ring buffer into the DMA controller</li>
+        <li>the DMA controller now reads this data from TX ring buffer and transmits to the NIC</li>
+        <li>NIC sends this data over wire to the outer world</li>
+    </ol>
+
+    <ol>
+        <li>NIC receives the data</li>
+        <li>NIC writes the incoming data to the RX ring buffer using the DMA controller and raises an interrupt to the CPU</li>
+        <li>the kernel copies this data from the ring buffer to the linked socket receive buffer</li>
+        <li>the kernel then moves this data from the socket receive buffer to the service buffer</li>
+        <li>the user-service has a pool of threads (and linked sockets) waiting for data from the connection and kernel passes the control to it</li>
+        <li>the user-service reads this data from the service buffer and completes the data receiving part</li>
+        <li>user-service can now query the db/cache to authenticate the request</li>
+    </ol>
+
+</div>

@@ -6,6 +6,13 @@
             "link": "/blogs/engineering/2018/dependency-injection",
             "tags": [ "dependency injection", "java", "memory management" ],
             "date": "23.10.2018"
+        },
+        {
+            "title": "Data transfer over network",
+            "description": "Ever wondered how the services we write actually communicate with each other?",
+            "link": "/blogs/engineering/2020/linux-networking",
+            "tags": [ "api", "linux", "sockets" ],
+            "date": "19.07.2020"
         }
     ]
 }

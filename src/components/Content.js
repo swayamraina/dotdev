@@ -41,7 +41,13 @@ function Content (props) {
 
     const renderContent = () => {
         return (
-            <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
+            <div>
+                <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
+                <br/><br/><br/><br/>
+                <h2 class="end-quote">
+                    "Stay hungry, Stay foolish..."
+                </h2>
+            </div>
         )
     }
 

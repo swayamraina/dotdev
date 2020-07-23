@@ -44,9 +44,7 @@ function Content (props) {
             <div>
                 <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
                 <br/><br/><br/><br/>
-                <h2 class="end-quote">
-                    "Stay hungry, Stay foolish..."
-                </h2>
+                <h2 class="end-quote">"Stay hungry, Stay foolish..."</h2>
             </div>
         )
     }

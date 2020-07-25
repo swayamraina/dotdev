@@ -12,7 +12,7 @@
     </p>
     <p>
         Imagine starting to build a new service and having to write a ISR (interrupt service routine) to capture data from the 
-        <a href="https://en.wikipedia.org/wiki/Network_interface_controller">NIC</a> and send it to your application code. 
+        <a href="https://en.wikipedia.org/wiki/Network_interface_controller" target="_blank">NIC</a> and send it to your application code. 
         You would have got the idea that if these 3 things (separation of concern, abstractions and modularity) are not followed, 
         development cycle is very-very significantly strtched and release dates pushed from few weeks to few months which the 
         business would not like to hear.
@@ -64,7 +64,9 @@
     </p>
 
     <p>
-        We'll go through the complete stack to understand the data-flow
+        We'll go through the complete stack to understand the data-flow. You can look at the TCP state transition diagram 
+        <a href="https://users.cs.northwestern.edu/~agupta/cs340/project2/TCPIP_State_Transition_Diagram.pdf" target="_blank">here</a> and 
+        the RFC <a href="https://tools.ietf.org/html/rfc793" target="_blaank">here</a>
         <br/><br/>
 
 
@@ -106,8 +108,8 @@
         So for every thread created by the HTTP library a socket is created under the hood and with every socket creation the kernel creates 
         a file descriptor for maintaining references to open socket resources.<br/>
         You can see these file descriptors by running the following commands,
-        <br/><br/>
-        <div class="quote">
+        
+        <div class="code">
             ps -ef | grep '&lt;process name&gt;'<br/>
             ls -li /proc/&lt;pid&gt;/fd/
         </div>
@@ -119,8 +121,8 @@
         NIC is the actual hardware device which transfers the data from the machine on which the application is running to 
         the internet over ethernet cables. <br/>
         You can see the network card info by running the following command,
-        <br/><br/>
-        <div class="quote">
+        
+        <div class="code">
             lspci | egrep -i --color 'network|ethernet'
         </div>
 
@@ -132,7 +134,7 @@
         <br/><br/>
 
         Before we look at the control flow lets talk about the final piece i.e. the 
-        <a href="https://en.wikipedia.org/wiki/Direct_memory_access">DMA (Direct Memory Access)</a> Controller. <br/>
+        <a href="https://en.wikipedia.org/wiki/Direct_memory_access" target="_blank">DMA (Direct Memory Access)</a> Controller. <br/>
         The data movement from file-descriptors to NIC or NIC to file descriptors majorly happens without the involvement of the CPU 
         via the DMA controller. 
         <br/><br/>
@@ -180,24 +182,94 @@
 
     <p>
         For the more curious folks, <br/>
-        You can checkout the linux source from <a href="https://github.com/torvalds/linux">here</a> <br/>
+        You can checkout the linux source from <a href="https://github.com/torvalds/linux" target="_blank">here</a> <br/>
         just a FYI, the linux source code is around 8 GB in size
         <br/><br/>
         Below are references to a few important files you might want to look at,
         <ul>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L112">socket data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/skbuff.h#L711">socket data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/net/sock.h#L346">network socket data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/net.h">socket network protocol</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/net/socket.c#L1357">create socket implementation</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L944">file descriptor data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L636">inode data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L59">socket types</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/tcp.h#L142">TCP socket data structure</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/net/core/sock.c#L2377">socket send message implementation</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L1436">TCP send message implementation</a></li>
-            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L2015">TCP receive message implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L112" target="_blank">socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/skbuff.h#L711" target="_blank">socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/net/sock.h#L346" target="_blank">network socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/uapi/linux/net.h" target="_blank">socket network protocol</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/socket.c#L1357" target="_blank">create socket implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L944" target="_blank">file descriptor data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/fs.h#L636" target="_blank">inode data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/net.h#L59" target="_blank">socket types</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/include/linux/tcp.h#L142" target="_blank">TCP socket data structure</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/core/sock.c#L2377" target="_blank">socket send message implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L1436" target="_blank">TCP send message implementation</a></li>
+            <li><a href="https://github.com/torvalds/linux/blob/master/net/ipv4/tcp.c#L2015" target="_blank">TCP receive message implementation</a></li>
         </ul>
+    </p>
+
+
+    <br/><br/>
+    <h3>Understanding timeouts</h3>
+
+    <p>
+        When an API is fired from the application, it cannot wait forever and block resourcecs. To unblock the resources we add 
+        timeouts to our external I/O calls. Lets see what bad can go when you do an I/O call.
+
+        <ul>
+            <li>You could not initiate a call because of an existing resource crunch at you end</li>
+            <li>You initiated a call but you did not receive the connection acception (SYN-ACK)</li>
+            <li>You initiated a call, received the SYN-ACK but did not receive the response data</li>
+        </ul>
+
+        These are the only 3 possible scenarios that are possible, <br/><br/>
+
+        The first scenario describes the state where your application is under a heavy load and the HTTP library which accepts 
+        API call requests is unable to keep up with the request-response rate and starts rejecting API calls due to internal timeouts. 
+        <br/><br/>
+        The second scenario describes the state where the HTTP library was able to send data to NIC which emitted out the request (SYN-request) 
+        to the application you want to query but never received an acknnowledgement (SYN-ACK) i.e. the socket info from the other end to 
+        successfully create a conection and send the actual request.
+        <br/><br/>
+        The third scenario describes the case where the socket information was successfully shared between the two applications and the 
+        actual request left your application environment but did not receive the response within the cut-off time set by you. <br/>
+        This can happen majorly because of two things,
+        <ul>
+            <li>The request took too long to reach the recepient application and response could not be sent back on time</li>
+            <li>The request took time to be evaluated maybe because of some other dependency and crossed the cut-off time</li>
+        </ul>
+    </p>
+
+
+    <br/><br/>
+    <h3>Understanding TCP keep-alive</h3>
+
+    <p>
+        
+        Keep-Alive is implemented using keep-alive probe packets. When an ACK is not received by the socket it sends keep-alive probe 
+        packets to check if the connection is still alive. If all the probe packets fail it is assumed that the connection is dead and 
+        a new connection is tried to be established. This fail-fast approach helps in early cleaning of the resources. <br/>
+        
+        Keep-Alive time can be cinfigured using these 3 properties, 
+    
+        <ul>
+            <li>tcp_keepalive_time, the time in before the first probe is sent (default 2 hours)</li>
+            <li>tcp_keepalive_intvl, the time between probes / how long to wait for a response (default 75 seconds)</li>
+            <li>tcp_keepalive_probes, the number of additional probes to send before failing the connection (default 9)</li>
+        </ul>
+        
+        You can use the following command to see your server configuration,
+
+        <div claass="code">
+            sysctl -a | grep net.ipv4
+        </div>
+
+        Do note that, a timeout simply means the client aborted the request but the server did not. The server does reply bacck to the 
+        service whe the request processing ends. This now means that the server will send an old response to the same socket. But do not 
+        worry as this does not cause the reponse overlaps as every request-response happens over the same socket but via sequence numbers. 
+        <br/><br/>
+        This means as soon as the socket receives the old response for which timeout had occured, it rejects the response simply because 
+        it no longer has a mapping to the sequence number just received.
+
+        <br/><br/>
+        If you want to read more about user_timeout and keep-alive, Refer this 
+        <a href="https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=dca43c75e7e545694a9dd6288553f55c53e2a3a3" target="_blankn">commit</a>
+        for understanding the relation between user set timeouts and keep-alive probes.
+
     </p>
 
 </div>

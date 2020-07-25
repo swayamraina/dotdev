@@ -8,6 +8,8 @@ import '../styles/Content.css'
 
 function Content (props) {
 
+    const branch = "master";
+
     const [ loading, setLoding ] = useState(false)
     const [ content, setContent ] = useState("")
 
@@ -15,7 +17,7 @@ function Content (props) {
     const year = props.match.params.year
     const page = props.match.params.page
 
-    const url = `https://raw.githubusercontent.com/swayamraina/dotdev/master/resources/blogs/${type}/${year}/${page}.html`
+    const url = `https://raw.githubusercontent.com/swayamraina/dotdev/${branch}/resources/blogs/${type}/${year}/${page}.html`
 
     const handleSuccess = (data) => {
         setContent(data)
@@ -44,7 +46,7 @@ function Content (props) {
             <div>
                 <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
                 <br/><br/><br/><br/>
-                <h2 class="end-quote">"Stay hungry, Stay foolish..."</h2>
+                <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
             </div>
         )
     }

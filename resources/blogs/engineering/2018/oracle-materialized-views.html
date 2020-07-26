@@ -1,0 +1,123 @@
+<div>
+
+    <h1>OracleDB :: Materialised Views</h1>
+
+    <br/><br/>
+    <h3>Introduction</h3>
+
+    <p>
+        When I was working for my previous employer (<a href="https://belzabar.com/" target="_blank">Belzabar Software Design</a>), 
+        I worked heavily with Oracle Database. All the SQL database designing concepts studied during graduation made sense. I mostly 
+        had to work on writing PL/SQL stored procedures, functions, views, optimising queries, apart from writing JAVA code. <br/>
+        Though being a fresher, I was not into the underlying implementations, but in writing the business logic. Luckily, 
+        The organisation had a very flat structure and I usually took part in Tech discussions (or “Water-cooler discussions” 
+        they termed it) near my seating space. Thanks to all of my mentors there, I got into the why part of decisions.
+    </p>
+
+
+    <br/><br/>
+    <h3>Inspiration</h3>
+
+    <p>
+        Let’s say You are a developer at Amazon marketplace and you are given a task to design a system wherein the Data Analyst 
+        team can check the number of orders customer placed every day. <br/>
+        This seems a very easy problem at the first place. One can easily create a dashboard and can write a simple SQL query to 
+        get the required data using the below query,
+
+        <div class="code">
+            SELECT trunc (order_date) date, count(*) orders
+            FROM orders
+            WHERE order_date &gt; ? and order_date &lt; ?
+            GROUP BY trunc (order_date);
+        </div>
+
+        This query would work fine for a small business but considering the scale of Amazon, this might not be an acceptable solution. 
+        The “orders” table can easily have 30+ Million records in a month and looping over such a size every time is a crazy idea. <br/>
+        If one looks closely, what does this query returns is simply a few rows of almost static data. The first thing that comes to the mind 
+        is to store this data in a separate table and then query this small table.
+        <br/><br/>
+        Well, this is what a Materialised View is. A separate table which is refreshed automatically or on user request.
+    </p>
+
+
+    <br/><br/>
+    <h3>Working</h3>
+
+    <p>
+        <h4>Creation</h4>
+
+        <p>
+            Before we look at the query for a materialised view, I feel we should clear out the difference between a View and a Materialised View. 
+            In simple terms, View is a virtual table, that means any query to a view results in the actual query used while defining the view 
+            whereas a Materialized View is persistent data, that means the query used to define a materialised view creates a special table in 
+            the disk memory.
+            <br/><br/>
+            Continuing… We can use the following query to create a materialised view,
+
+            <div class="code">
+                CREATE MATERIALISED VIEW orders_mv
+                REFRESH FAST ON COMMIT as
+                SELECT trunc (order_date) date, count(*) orders
+                FROM orders
+                WHERE order_date &gt; ? and order_date &lt; ?
+                GROUP BY trunc (order_date);
+            </div>
+        </p>
+
+
+        <h4>Refresh</h4>
+
+        <p>
+            Running this query creates an actual view table in the memory. One point to be noted is that now we have created this almost static 
+            table and now we have to handle the updates to the underlying “orders” table.
+            <br/><br/>
+            We have two refresh options,
+            <ul>
+                <li>on demand: on user action</li>
+                <li>on commit: on table update</li>
+            </ul>
+            <br/><br/>
+            And two refresh techniques,
+            <ul>
+                <li>fast refresh: Refreshes the MV by managing updates by looking at commits from last refresh time.</li>
+                <li>complete refresh: Refreshes the MV by running the main query.</li>
+            </ul>
+            A fast refresh uses something called as a materialised view log. This log is maintained as a DB table which we need to create for using 
+            fast refresh.
+
+            <div class="code">
+                CREATE MATERIALISED VIEW LOG ON orders;
+            </div>
+
+            This creates a table named, mlog$_orders. This table is responsible for storing the delta which can be applied directly to the MV.
+            <br/><br/>
+            In case of an on-demand refresh, we can have scheduled jobs to refresh the data in the MV. But there will always be a period where 
+            the MV will be out of synch with the actual data. This might be or might not be acceptable again depending on the use case. <br/>
+            There is one more option (ENABLE ON QUERY COMPUTATION) wherein a result aggregator is used which combines the stale data of MV (using 
+            in-demand refresh) and the log table to give consistent data. Though this requires a bit of tweaking since as the difference between the 
+            two tables increases, the aggregator has to do more work to give the output result set.
+        </p>
+
+        
+        <h4>Trade-off</h4>
+
+        <p>
+            One can clearly see by using Materialised View, we increase our disk memory consumption. Though these days disk memory is 
+            not a topic of concern, there is one more trade-off with fast refresh. <br/>
+            Fast refresh updates the view whenever there is a commit to the underlying table used by the view. This means the Fast 
+            refresh mechanism needs to update the View table as soon as the commit is received by reading the log table. This might create 
+            a CPU crunch at the application level by making the writes a tiny bit slower.
+            <br/><br/>
+            So the actual trade-off is between fast and consistent reads for slower commits. Thus the use of MV depends on the application 
+            use case.
+        </p>
+
+        <p>
+            Before using Materialised Views you should take into considerations about the trade-offs and whether or not this fits 
+            for your use case. You should also check if the use case can be achieved by some other way so as the trade-off it 
+            presents is better than MVs.
+        </p>
+
+    </p>
+
+</div>

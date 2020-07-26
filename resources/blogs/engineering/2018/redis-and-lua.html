@@ -1,0 +1,150 @@
+<div>
+
+    <h1>Terrorizing REDIS with beautiful LUA</h1>
+    
+    <br/><br/>
+    <h3>The cloud of imagined code</h3>
+
+    <p>
+        We all have worked in teams and most probably seen a large codebase. And being part of an ever-changing product we 
+        rarely get a chance to see most of the code. Which leads to something called “Code Imagination”.
+        <br/><br/>
+        Imagining code is a necessary step when you take over a large project — you will never read all the code. But if you do not 
+        distinguish code you imagined from the code you’ve seen with your own eyes, then you become prone to making decisions without 
+        evidence. When I wrote code and re-used one particular function, I only saw the method name. I imagined that this particular 
+        function would simply delete the key from REDIS, and in my complacency, I never verified that what I imagined was truly so.
+        <br/><br/>
+        Maybe it’s because we love technology so much that when many of us imagine a machine we assume each part of it has been fully 
+        and beautifully developed. <br/>
+        The method signature looked something like this.
+        <div class="code">
+            public boolean deleteKeys (String key);
+        </div>
+    </p>
+
+
+    <br/><br/>
+    <h3>Productio issue?</h3>
+
+    <p>
+        To know what actually happened let me first tell you about LUA and then we’ll move towards the bad and the good…<br/>
+        
+        <h4>What is LUA?</h4>
+        <p>
+            Lua is a powerful, efficient, lightweight, embeddable scripting language. Most of the cache server implementations 
+            like REDIS, AEROSPIKE etc provide support to run LUA scripts on servers for macro-commands. <br/>
+            LUA has a very low foot-print with really high speed maybe is the reason it has gained so much of attraction. <br/>
+            Fun Fact: <a href="" target="_blank">KONG</a> is written in lua.
+        </p>
+
+        <h4>The Issue</h4>
+        <p>
+            We all know REDIS is a single threaded application but a very very fast one (because of the optimised code). It has 
+            something called “UDF” or User Defined Functions which is similar to PL/SQL procedures in case you ever worked on 
+            Oracle as Database or Stored Functions in case of MongoDB. <br/>
+            So, the method we talked about during the introduction. Yes, that’s the evil method I fell prey off. 
+            <br/><br/>
+            Instead of deleting a single key as requested by the method. The implementation actually fired-off an LUA UDF which 
+            deleted the specified key. The UDF looked something like this,
+
+            <div class="code">
+                local keys = redis.call('keys', '%s') 
+                &emsp;&emsp;for i,k in ipairs(keys) do    
+                &emsp;&emsp;&emsp;&emsp;local res = redis.call('del', k)
+                &emsp;&emsp;end
+            </div>
+
+            The UDF had caused issue earlier also (about 2 years ago) and was switched off back then by sending a patch. This happened 
+            when I was not part of the organisation.
+            <br/><br/>
+            Coming back to the issue, This UDF actually iterated all of the keys in REDIS and then deleted the requested key. 
+            This is the moment when we imagine the underlying implementation of a method at the time of re-use. <br/>
+            Since this iterated the complete set of keys, It made all of the queries to REDIS super slow and our REDIS slow-logs 
+            was full of queries.
+        </p>
+    </p>
+
+
+    <br/><br/>
+    <h3>The Redemption</h3>
+
+    <p>
+        The issue was highlighted by the DevOps team as soon as the alerts went up and the application tended to become slow. 
+        As a reaction, digging started right from when exactly the issue started to happen. This clearly indicated that a new 
+        feature release which went live a few days ago was responsible. <br/>
+        The new feature introduced Aerospike parallel to (rewrite of) Mongo and Redis for Personalised Offer Banner display to users on 
+        the home page of the <b>Airtel Thanks App</b>
+        <br/><br/>
+        On further digging, We found out the underlying implementation used a bad UDF written somewhat 2 years ago.
+        The patch was sent ASAP and the servers (both REDIS and application) performed normally and everything was back to normal.
+    </p>
+
+
+    <br/><br/>
+    <h3>Journey of reading REDIS source code</h3>
+
+    <p>
+        We always find a silver lining to everything. With this particular issue it was my love for redis.<br/> 
+        I started looking at the source code of REDIS and fell in ❤ with it. <br/>
+        After going through the source code for about 3 to 4 days I came to know the data structures REDIS uses for storing normal 
+        hashes and hash sets. Even how the commands are processed and how the output is sent out to the terminal.
+        I even raised improvements to existing data structures to Antirez by raising an issue on GitHub. You can see the suggestion 
+        <a href="https://github.com/redis/redis/issues/5116" target="_blank">here</a>. <br/>
+        Later, I also did a perf on our redis cluster to check benefits of using lua-scripts over raw commands. You can see an issue 
+        I raise <a href="https://github.com/redis/redis/issues/5107" target="_blank">here</a> 
+    </p>
+
+
+    <br/><br/>
+    <h3></h3>
+
+    <p>
+        Stage II of this story was all about fixing the issue. And now after reading the source code, I had so many doubts. 
+        One particularly being why UDFs. So I directly reached out to Antirez (Salvatore Sanfilippo) for clarifications.
+        You can read our small conversatio in <a href="https://twitter.com/rainaswayam/status/1018034636151144448" target="_blank">this</a> thread.
+        <br/><br/>
+        So yes, The purpose of LUA is to give developers a mechanism by which they can perform certain aggregation queries or run a 
+        command which in itself is a combination of multiple commands in a single outbound call to the REDIS server.
+        <br/><br/>
+        Another peculiar question that daunted me was the use of kind of DLLs (Doubly linked lists) over RB Tree for HashSet storage. 
+        I pointed this out to him and He very kindly notified that RB Tree implementation was something that is coming up with the 
+        stream version of REDIS. <br/>
+        After brainstorming a bit, I realised why exactly DLL type of solution was better. Remember we are sitting down inside RAM 
+        which has a memory restriction. And using so many pointers is simply a waste of resource.
+    </p>
+
+
+    <br/><br/>
+    <h3>Learning the hard way</h3>
+
+    <p>
+        What I learned with this! <br/>
+        Well, first of all not rely on method signatures and to verify the implementations before actually using someone’s else’s code.
+        <br/><br/>
+        This particular issue also made me go through the source code and which made me more confident in the area of reading a foreign 
+        source code and grasping how the code is structured and it’s working.
+        <br/><br/>
+        Even though this issue was not something I would want to remember (because of how silly it is and how big its impact was) but yeah, 
+        certainly it taught me something which made me a better developer than the day before.
+    </p>
+
+
+    <br/><br/>
+    <h3>Oh Mongo!</h3>
+
+    <p>
+        And to just reiterate, this can happen to anyone and something similar happened with 
+        <a href="https://www.mongodb.com/" target="_blank">MongoDB</a>, when the engineers outlooked a small change assuming the code in 
+        lower layers would be handling a particular case (which it didn't) and resulted in the mongodb-client library unable to connect to 
+        servers reulting in connection errors in production for everyone who used it. Read about it 
+        <a href="https://engineering.mongodb.com/post/when-switching-projects-check-your-assumptions-or-risk-disaster" target="_blank">here</a>
+    </p>
+
+
+    <br/><br/>
+    <p>
+        For the curious folks, You can read the redis source code by checking out the
+        <a href="https://github.com/redis/redis" target="_blank">repo</a>repo on github. 
+    </p>
+
+</div>

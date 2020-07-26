@@ -1,0 +1,149 @@
+<div>
+
+    <h1>Json Web Tokens (JWT)</h1>
+
+    <br/><br/>
+    <h3>Flipkart-Ultra project</h3>
+
+    <p>
+        oone can deny the presence of e-commerce companies like Flipkart and Amazon these days and the footfall they can provide 
+        to businesses. To increase the foot-fall and hence the business, Airtel decided to partner with Flipkart to allow 
+        users recharge their mobile phone even through the Flipkart app. 
+        <br/><br/>
+        This new project required creation of a light weight React-Native version of the AirtelThanks app which was to embedded into 
+        the Flipkart app. This also required heavy integrations of the Flipkart systems with the Airtel systems. <br/>
+        I was presented the oppurtunity to build this new service and lead the end-to-end project from the server perspective.
+        <br/><br/>
+        The teams decided to use JWT for cross-service authentication and this post is about what JWT are and how they work.
+    </p>
+
+
+    <br/><br/>
+    <h3>What is JWT</h3>
+
+    <p>
+        JWT or JSON Web Token is string of characters that represents some information. The information in actual is combination 
+        of multiple fields separated by a ‘.’ (period). <br/>
+        JWT is a combination of 3 fields:
+        <ul>
+            <li>header</li>
+            <li>payload</li>
+            <li>signature</li>
+        </ul>
+        in the following format:
+
+        <div class="code">
+            header.payload.signature
+        </div>
+
+        A sample JWT (used from <a href="https://jwt.io" target="_blank">here</a>), You can clearly see the 3 components.
+
+        <div class="code">
+            eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM
+        </div>
+
+        This JWT was generated using RSA256 signature. Below is the JSONs used in generation of the token,
+
+        <h4>header</h4>
+        <div class="code">
+            {
+            &emsp;&emsp;"alg": "RS256",
+            &emsp;&emsp;"typ": "JWT"
+            }
+        </div>
+
+        <h4>payload</h4>
+        <div class="code">
+            {
+            &emsp;&emsp;"sub": "1234567890",
+            &emsp;&emsp;"name": "John Doe",
+            &emsp;&emsp;"admin": true,
+            &emsp;&emsp;"iat": 1516239022
+            }
+        </div>
+
+        The header and payload are base64 encoded and passed to the selected algorithm for signature. One must understand this, We 
+        only digitally sign the data and do not encrypt it (Well we do encrypt it but using only base64, which is almost like not 
+        encrypting. You can decrypt any base64 message easily. <br/>
+        The aim of JWT is not to hide the data in any way but to add authenticity of the data i.e. to prove that the sent data was 
+        actually created by an authentic source. 
+        <br/><br/>
+        You can see, the header and payload can be decrypted easily using base64 decoder.
+    </p>
+
+
+    <br/><br/>
+    <h3>Symmetric signing of JWTs</h3>
+
+    <p>
+        <h4>Symmetric algorithm</h4>
+        <p>
+            In a Symmetric algorithm, a single key is used to encrypt the data. When encrypted with the key, the data can be decrypted 
+            using the same key. If, for example, Alice encrypts a message using the key “my-secret-key” and sends it to John, he will be 
+            able to decrypt the message correctly if and only if he uses the same key i.e. “my-secret-key”.
+        </p>
+
+        <h4>HMAC</h4>
+        <p>
+            Hash-Based Message Authentication Codes (HMACs) are a group of algorithms that provide a way of signing messages by means of 
+            a shared key ( “my-secret-key” should ring a bell!). In the case of HMACs, a cryptographic hash function is used 
+            (for instance SHA256) and the strength of the signature depends on the hashing algorithm being used. By strength I mean, how hard 
+            it is to forge an HMAC.
+        </p>
+
+        <h4>When to use HMAC based JWTs?</h4>
+        <p>
+            HMACs are used with JWTs when you want a simple way for all parties to create and validate JWTs. Any party knowing the key 
+            can create new JWTs. In other words, with shared keys, it is possible for a person to impersonate another one. <br/>
+            If you can ensure your secret key will truly be a secret and the clients you share it with are trustable, you can use HMAC based JWTs.
+        </p>
+
+        <h4>Verification process</h4>
+        <p>
+            User auth request lands on the auth server and after validating the credentials generates a JWT using the secret-key. 
+            This JWT is passed back to the application for further API calls. Using this JWT, data requests lands the application 
+            server where the server verifies the JWT using the same secret-key which was used to sign the JWT at time of creation.
+        </p>
+    </p>
+
+
+    <br/><br/>
+    <h3>Asymmetric signing of JWTs</h3>
+
+    <p>
+        <h4>Asymmetric algorithms</h4> 
+        <p>
+            In an Asymmetric algorithm, two keys are used to encrypt and decrypt messages. While one key(private) is used to digitally 
+            sign the message and the other key(public) can only be used to verify the authenticity of the signature. So basically, John 
+            can generate both public and private keys, then send only the public key to Mary to verify his messages.
+        </p>
+
+        <h4>RSA</h4>
+        <p>
+            RSA is an asymmetric encryption and digital signature algorithm. What asymmetric algorithms bring to the table is the 
+            possibility of verifying or decrypting a message without being able to create a new one. This is key for certain use cases. <br/>
+            Picture a big company where data generated by the sales team needs to be verified by the accounting team. If an HMAC were 
+            to be used to sign the data, then both the sales team and the accounting team would need to know the same key (the secret-key). 
+            This would allow the sales team to sign data and make it pass as if it were from the accounting team.
+        </p>
+
+        <h4>When to use RSA based JWTs?</h4>
+        <p>
+            JWT is particularly effective where they are used as a single-use authorization token i.e. the token is only expected to be 
+            used only once. <br/>
+            For example, you might run a file-hosting service where the user has to authenticate to download their files, but the 
+            files themselves are served by a separate, stateless “download server”. In this case, you might want to have your application 
+            server (Server A) issue single-use “download tokens”, that the client can then use to download the file from a download server 
+            (Server B).
+        </p>
+
+        <h4>Verification process</h4>
+        <p>
+            User auth request lands on the auth server and after validating the credentials generates a JWT using the private RSA key. 
+            This JWT is passed back to the application for further API calls. Using this JWT, data requests lands the application 
+            server where the server verifies the JWT using the public RSA key of the auth server. If the data inside the JWT is tampered, 
+            the signature verification process will fail.
+        </p>
+    </p>
+
+</div>

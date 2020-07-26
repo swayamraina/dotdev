@@ -1,0 +1,102 @@
+<div>
+
+    <h1>Just In Time (JIT) compilation</h1>
+
+    <br/><br/>
+    <p>
+        There is an ever-going debate about whether compilers are better or interpreters (You can relate this to JAVA vs Python debate). 
+        Well there is one more path a programming language can take. And this path now been taken by almost all of the programming languages.
+        <br/><br/>
+        A compiler or an interpreter is just another piece of code, a program, which converts the code written from a human readable form 
+        to something machine readable i.e. to machine instructions.
+    </p>
+
+    <br/><br/>
+    <h3>Compilers and Interpreters</h3>
+
+    <p>
+        In programming, there are generally two ways of translating your code to machine language. You can use an interpreter or a compiler.
+        With an interpreter, this translation happens pretty much line-by-line, on the fly. A compiler on the other hand doesn’t translate on 
+        the fly. It accepts the entire code, looks at it and then translates it with all the optimizations that can be done to make the 
+        execution faster and reduce the memory consumption.
+
+        <h4>Interpreter — pros and cons</h4>
+        <p>
+            Interpreters are quick to get up and running. You don’t have to go through that whole compilation step before you can start 
+            running your code. You can just make the necessary edits to your code and run directly. <br/>
+            Because of this, an interpreter seems like a natural fit for something like JavaScript. It’s important for a front end developer
+            to be able to get going and run their code quickly. And that’s why browsers used JavaScript interpreters in the beginning. 
+            But the con of using an interpreter comes when you’re running the same code more than once. For example, if you’re in a loop. 
+            Then you have to do the same translation over and over and over again. And this can be and should be prevented.
+        </p>
+
+        <h4>Compiler — pros and cons</h4>
+        <p>
+            Compiler has its own trade-offs. A compiler takes more time to start up because it has to go through that compilation step at 
+            the beginning. But once the compilation is done, the code in loops runs faster as the optimizations at instruction level have 
+            already been done. <br/>
+            This helps a lot because the compiler doesn’t need to repeat the translation for each pass through that loop. The interpreter 
+            is doing the same work at runtime, so it can’t take much time during the translation phase to figure out these optimizations.
+        </p>
+    </p>
+
+
+    <br/><br/>
+    <h3>Just-in-time (JIT) compilers</h3>
+
+    <p>
+        Just in Time compilers combine the best of both the worlds i.e the optimization efficiency of a compiler and on the fly running 
+        ability of interpreters. <br/>
+        As a way of getting rid of the interpreter’s inefficiency — where the interpreter has to keep re-translating the same piece of code 
+        every time it goes through a loop or do some extra optimization which would improve run time or reduce the memory footprint of the 
+        application, the concept of JIT was introduced. <br/>
+        The main idea behind JIT compiler is to to keep track of the code being run i.e. how many times a particular segment of code is being 
+        called and what are the types used.
+        <br/><br/>
+        When the interpreter is hit with a new code it interprets it on the fly and prepares it for execution. Also keeping track of the 
+        particular segment for future interpretation. <br/>
+        If a segment of code is run a number of times that is greater than the HotSpot threshold, JIT labels the piece of code as warm and 
+        if it runs a lot more than the threshold, it is marked as hot. Hence, the name HotSpot.
+        <br/><br/>
+        When a segment of code starts to get warm, the JIT sends off the segment, on the fly, to the compiler to be compiled for optimizations. 
+        So, when the same segment is called again, JIT instead of interpreting it, picks up the first generation of compiled version of the 
+        code and sends for execution. <br/>
+        The advantage of using the compiled version is that it eliminates the repetition of work and also brings compiler optimization benefits.
+        <br/><br/>
+        We must note it here that the compiler only makes some of these optimizations, as it doesn’t want to take too much time, though, 
+        because it also doesn’t want to hold up execution for too long. <br/>
+        When the code becomes too hot, JIT decides to give more time to the compiler to do more optimizations that will make the execution faster.
+        <br/><br/>
+        So, in reality, code compilation in HotSpot is generation based. As a piece of code gets more and more hot, the compiler takes more 
+        time to analyse the code and optimize it. Thus, producing N generations of compiled version of the code.
+    </p>
+
+
+    <br/><br/>
+    <h3>JAVA | JIT</h3>
+
+    <p>
+        When a code is submitted to the JAVA compiler for compilation, All syntactical errors are pointed out to the programmer for fixes. 
+        If no errors are reported by the compiler, it converts the source code into an intermediate format known as the bytecode.
+        <br/><br/>
+        The bytecode format is platform-independent code (set of machine instructions) that can be sent to any platform and run on that 
+        platform. It is the bytecode that helps JAVA run on different platforms as each platform interprets the bytecode according to its 
+        environment. The JAVA bytecode is interpreted and instructions are made available for execution on the fly. JAVA HotSpot is based 
+        on the same idea.
+    </p>
+
+
+    <br/><br/>
+    <h3>The path less travelled!</h3>
+
+    <p>
+        One of my colleagues and I, once were having a discussion on one particular optimization done by JIT which seemed to peculiar to me. 
+        The discussion was based on <a href="https://stackoverflow.com/a/51583111/6183182" target="_blank">this</a> particular SO thread.
+        <br/><br/>
+        We wandered for almost an hour, more than that actually, in search of TRUTH !
+        <br/><br/>
+        The question asked here was very simple, When benchmarking Strings.equals() method with a copy-pasted equals() method, String.equals() 
+        out-performed the same code by a margin of 10X.
+    </p>
+
+</div>

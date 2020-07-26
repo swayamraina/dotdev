@@ -1,0 +1,132 @@
+<div>
+
+    <h1>Why every Team should use GIT-HOOKS</h1>
+
+    <br/><br/>
+    <p>
+        We all know there is a difference between writing code and writing enterprise level code. Writing an enterprise level software 
+        means every developer should write not only optimized code but also a readable one.
+    </p>
+
+
+    <br/><br/>
+    <h3>Where did it all start?</h3>
+
+    <p>
+        There is a standard to every event in the software development life-cycle. This standardisation results in better maintainability 
+        of the code or project in general. <br/>
+        As the team grows and developers move in and out of the team or organisation, defining processes and standards helps everyone. 
+        One may not see the benefit instantly but when the rough day arrives, everyone thank to the person who thought of making processes.
+        A developer in a general day writes code, a lot of code, and commits it to project repository. For a senior dev it becomes easy to 
+        understand the need of a particular commit on reading a commit message. Well, I believe its hard to find such happy senior devs. <br/>
+        There is a need for standardising the commit messages for a developer story. This not only makes it easier to get to know about a 
+        commit but also helps keep track of the feature development.
+    </p>
+
+
+    <br/><br/>
+    <h3>What are git hooks?</h3>
+
+    <p>
+        Git hooks are scripts that run automatically every time a particular event occurs in a Git repository. They let you customize 
+        Git’s internal behavior and trigger customizable actions at key points in the development life cycle.
+        <br/><br/>
+        So basically, Like any other process Git also follows a process. Every time a certain event occurs in Git lifecycle, the 
+        corresponding triggers are fired. We as developers and managers can introduce standardisation to our code or to be more 
+        precise software life cycle.
+        <br/><br/>
+        Common use cases for Git hooks include encouraging a commit policy, altering the project environment depending on the state 
+        of the repository, and implementing continuous integration workflows.
+        <br/><br/>
+        We’ll have a closer look at two basic but very usable git-hooks.
+        First let me present to you the Git-hook lifecycle.
+
+        <h4>Local hooks</h4>
+        <p>
+            <div class="code">
+                &lt;pre-commit&gt; <br/>
+                &lt;prepare-commit-msg&gt; <br/>
+                &lt;commit-msg&gt; <br/>
+                &lt;post-commit&gt; <br/>
+            </div>
+
+            <ul>
+                <li>The pre-commit script is executed every time you run git commit before Git asks the developer for a commit message 
+                    or generates a commit object</li>
+                <li>The prepare-commit-msg hook is called after the pre-commithook to populate the text editor with a commit message. 
+                    This is where auto generated commit messages are created.</li>
+                <li>The commit-msg hook is much like the prepare-commit-msg hook, but it’s called after the user enters a commit message.</li>
+                <li>The post-commit hook is called immediately after the commit-msg hook. This is after a commit has taken place.</li>
+            </ul>
+        </p>
+
+        <h4>Server hooks</h4>
+        <p>
+            <div class="code">
+                &lt;pre-receive&gt; <br/>
+                &lt;update&gt; <br/>
+                &lt;post-receive&gt; <br/>
+            </div>
+
+            <ul>
+                <li>The pre-receive hook is executed every time somebody uses git push to push commits to the repository.</li>
+                <li>The post-receive hook gets called after a successful push operation.</li>
+            </ul>
+        </p>
+        
+    </p>
+
+
+    <br/><br/>
+    <h3>Why every Team should use hooks?</h3>
+
+    <p>
+        <h4>commit-msg</h4>
+        <p>
+            The only argument passed to this hook is the name of the file that contains the message. If it doesn’t like the message that 
+            the user entered, it can alter this file in-place (just like with prepare-commit-msg) or it can abort the commit entirely by 
+            exiting with a non-zero status.
+            <br/><br/>
+            This part of the cycle is an appropriate place to warn developers that their message doesn’t adhere to your team’s standards. <br/>
+            By forcefully applying this restriction to commit messages, we achieve a simple yet a very challenging part of production 
+            deployment. And that is “knowing exactly what might have been changed in a particular commit”
+            <br/><br/>
+            This is in-line with what developers see as code readability.
+        </p>
+
+        <h4>post-receive</h4>
+        <p>
+            The hook runs after the references are updated, so it’s a good place to enforce any kind of development policy that you want 
+            like integrating Continuous Integration and a good place to perform notifications.
+            <br/><br/>
+            Running all the test cases, as soon as the commit has taken place helps figuring out if the incoming change resulted in any 
+            type of application breakdown. If so, the fix for the same can be applied ASAP.
+        </p>
+
+        <h4></h4>
+        <p>
+            Git hooks can be written in any scripting language. Though I prefer python as it is easy to write and understand. <br/>
+            Here is a sample commit-msg hook,
+
+            <div class="code">
+                import sys <br/>
+                import re <br/>
+                <br/>
+                commit_regex = '\[#[0-9]+\] : [a-zA-Z ]+(\n[a-zA-Z 0-9.])+' <br/>
+                <br/>
+                error_message = "\ <br/>
+                Aborting commit. Please ensure your commit message meets the standard requirement. \n\n \ <br/>
+                &emsp;&emsp;[#&lt;reference_id&gt;] : &lt;commit message&gt; \n \ <br/>
+                &emsp;&emsp;&lt;detailed commit message&gt; \n\n \ <br/>
+                &emsp;&emsp;Sample - \n \ <br/>
+                &emsp;&emsp;[#1234] : My first commit \n \ <br/>
+                &emsp;&emsp;This is my first commit to the repository\ <br/>
+                " <br/>
+                <br/>
+                commit_msg_file_path = sys.argv[1] <br/>
+            </div>
+        </p>
+        
+    </p>
+
+</div>

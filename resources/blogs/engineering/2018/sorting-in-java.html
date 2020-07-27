@@ -4,7 +4,7 @@
 
     <p>
         <div class="code">
-            private void displayStudents(List<Student> students, Strategy strategy, Filter filter) { <br/>
+            private void displayStudents (List<Student> students, Strategy strategy, Filter filter) { <br/>
             &emsp;&emsp;if (null != filter) Filter.apply(students, filter); <br/>
             &emsp;&emsp;if (null != strategy) { <br/>
             &emsp;&emsp;&emsp;&emsp;Function strategyFunction = Strategy.getStrategy(strategy); <br/>
@@ -39,16 +39,17 @@
         seen before exception (at least for me!)
 
         <div class="code">
-            Exception in thread "main" java.lang.IllegalArgumentException: Comparison method violates its general contract!
-            at java.util.TimSort.mergeLo(TimSort.java:777)
-            at java.util.TimSort.mergeAt(TimSort.java:514)
-            at java.util.TimSort.mergeForceCollapse(TimSort.java:457)
-            at java.util.TimSort.sort(TimSort.java:254)
-            at java.util.Arrays.sort(Arrays.java:1512)
-            at java.util.ArrayList.sort(ArrayList.java:1454)
-            at java.util.Collections.sort(Collections.java:175)
-                ...
-                ...
+            Exception in thread "main" java.lang.IllegalArgumentException: <br/>
+            Comparison method violates its general contract! <br/>
+            at java.util.TimSort.mergeLo(TimSort.java:777) <br/>
+            at java.util.TimSort.mergeAt(TimSort.java:514) <br/>
+            at java.util.TimSort.mergeForceCollapse(TimSort.java:457) <br/>
+            at java.util.TimSort.sort(TimSort.java:254) <br/>
+            at java.util.Arrays.sort(Arrays.java:1512) <br/>
+            at java.util.ArrayList.sort(ArrayList.java:1454) <br/>
+            at java.util.Collections.sort(Collections.java:175) <br/>
+                ... <br/>
+                ... <br/>
         </div>
     </p>
 
@@ -91,9 +92,9 @@
         minrun: as it was said above, in the first step of the algorithm, the input array is split into runs. minrun is a minimum 
         length of such run. This number is calculated by a certain logics from the N number. 
         <br/><br/>
-        Step1 — Calculate minrun
-        Step2 — Split the runs and sort them individually
-        Step3 — Merge the runs
+        Step1 — Calculate minrun <br/>
+        Step2 — Split the runs and sort them individually <br/>
+        Step3 — Merge the runs <br/>
     </p>
 
 
@@ -101,7 +102,7 @@
     <h3>Min-run and it’s calculation</h3>
 
     <p>
-        <div>
+        <div class="code">
             /** <br/>
             * Returns the minimum acceptable run length for an array of the specified <br/>
             * length. <br/>
@@ -138,9 +139,9 @@
         This method will return :
         
         <div class="code">
-            MIN_MERGE/2 : if n is exact power of 2
-            n : if n &lt; MIN_MERGE
-            k (where MIN_MERGE/2 &lt;= k &lt;= MIN_MERGE)
+            MIN_MERGE/2 : if n is exact power of 2 <br/>
+            n : if n &lt; MIN_MERGE <br/>
+            k (where MIN_MERGE/2 &lt;= k &lt;= MIN_MERGE) <br/>
         </div>
     </p>
 
@@ -149,7 +150,7 @@
     <h3>Sorting individual runs</h3>
 
     <p>
-        <div>
+        <div class="code">
             /**     <br/>
             * @param a the array in which a run is to be counted and possibly reversed <br/>
             * @param lo index of the first element in the run <br/>
@@ -188,7 +189,7 @@
 
 
     <br/><br/>
-    <h3>Merginng</h3>
+    <h3>Merging</h3>
 
     <p>
         When a run is identified, its base address and length are pushed on a stack. The merging function is then called to see whether 
@@ -205,7 +206,7 @@
 
 
     <br/><br/>
-    <h3></h3>
+    <h3>Galloping</h3>
 
     <p>
         Now, the input array is in a split state where each sub-array is sorted and are needed to be merged into the final sorted array. 

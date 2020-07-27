@@ -34,14 +34,7 @@
             "link": "/blogs/engineering/2018/redis-and-lua",
             "tags": [ "redis", "lua", "stored procedures", "mongo" ],
             "date": "18.12.2018"
-        }, 
-        {
-            "title": "Are we using DI correctly?",
-            "description": "",
-            "link": "/blogs/engineering/2018/dependency-injection",
-            "tags": [ "Spring boot", "java" ],
-            "date": "23.10,2018"
-        }, 
+        },
         {
             "title": "OracleDB materialized views",
             "description": "",
@@ -52,7 +45,7 @@
         {
             "title": "Symmetric, Asymmetric JWTs",
             "description": "",
-            "link": "/blogs/engineering/2019/symmeteric-asymmteric-jwt",
+            "link": "/blogs/engineering/2018/symmeteric-asymmteric-jwt",
             "tags": [ "json", "jwt", "authentication" ],
             "date": "04.09.2018"
         }, 

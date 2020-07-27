@@ -39,27 +39,29 @@
         A sample JWT (used from <a href="https://jwt.io" target="_blank">here</a>), You can clearly see the 3 components.
 
         <div class="code">
-            eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM
+            eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdC<br/>
+            I6MTUxNjIzOTAyMn0.TCYt5XsITJX1CxPCT8yAV-TVkIEq_PbChOMqsLfRoPsnsgw5WEuts01mq-pQy7UJiN5mgRxD-WUcX16dUEMGlv50aqzpqh<br/>
+            4Qktb3rk-BuQy72IFLOqV0G_zS245-kronKb78cPN25DGlcTwLtjPAYuNzVBAh4vGHSrQyHUdBBPM
         </div>
 
         This JWT was generated using RSA256 signature. Below is the JSONs used in generation of the token,
 
         <h4>header</h4>
         <div class="code">
-            {
-            &emsp;&emsp;"alg": "RS256",
-            &emsp;&emsp;"typ": "JWT"
-            }
+            {<br/>
+            &emsp;&emsp;"alg": "RS256",<br/>
+            &emsp;&emsp;"typ": "JWT"<br/>
+            }<br/>
         </div>
 
         <h4>payload</h4>
         <div class="code">
-            {
-            &emsp;&emsp;"sub": "1234567890",
-            &emsp;&emsp;"name": "John Doe",
-            &emsp;&emsp;"admin": true,
-            &emsp;&emsp;"iat": 1516239022
-            }
+            {<br/>
+            &emsp;&emsp;"sub": "1234567890",<br/>
+            &emsp;&emsp;"name": "John Doe",<br/>
+            &emsp;&emsp;"admin": true,<br/>
+            &emsp;&emsp;"iat": 1516239022<br/>
+            }<br/>
         </div>
 
         The header and payload are base64 encoded and passed to the selected algorithm for signature. One must understand this, We 

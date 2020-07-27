@@ -25,10 +25,10 @@
         get the required data using the below query,
 
         <div class="code">
-            SELECT trunc (order_date) date, count(*) orders
-            FROM orders
-            WHERE order_date &gt; ? and order_date &lt; ?
-            GROUP BY trunc (order_date);
+            SELECT trunc (order_date) date, count(*) orders<br/>
+            FROM orders<br/>
+            WHERE order_date &gt; ? and order_date &lt; ?<br/>
+            GROUP BY trunc (order_date);<br/>
         </div>
 
         This query would work fine for a small business but considering the scale of Amazon, this might not be an acceptable solution. 
@@ -55,12 +55,12 @@
             Continuing… We can use the following query to create a materialised view,
 
             <div class="code">
-                CREATE MATERIALISED VIEW orders_mv
-                REFRESH FAST ON COMMIT as
-                SELECT trunc (order_date) date, count(*) orders
-                FROM orders
-                WHERE order_date &gt; ? and order_date &lt; ?
-                GROUP BY trunc (order_date);
+                CREATE MATERIALISED VIEW orders_mv<br/>
+                REFRESH FAST ON COMMIT as<br/>
+                SELECT trunc (order_date) date, count(*) orders<br/>
+                FROM orders<br/>
+                WHERE order_date &gt; ? and order_date &lt; ?<br/>
+                GROUP BY trunc (order_date);<br/>
             </div>
         </p>
 

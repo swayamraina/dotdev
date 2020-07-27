@@ -11,7 +11,8 @@
         On checking the MySQL logs we found one specific error that raised suspicion. The log file showed the below error log,
 
         <div class="code">
-            “InnoDB: page_cleaner: 1000ms intended loop took 8907ms. The settings might not be optimal”
+            “InnoDB: page_cleaner: 1000ms intended loop took 8907ms. <br/>
+            The settings might not be optimal”
         </div>
 
         Since I was new to MySQL, I went into the exact cause of the issue by studying what exactly happens in MySQL under the hood.
@@ -22,7 +23,7 @@
     <br/><br/>
     <h3>MySQL basics</h3>
 
-    <br/><br/>
+    <
     <h4>InnoDB</h4>
 
     <p>
@@ -50,26 +51,26 @@
 
     <p>
         <ul>
-            <li>lru_scan_depth:</li> <br/>
-            The number of pages to be flushed from memory to disk in one go by the page-cleaner threads.
+            <li><b>lru_scan_depth</b></li>
+            The number of pages to be flushed from memory to disk in one go by the page-cleaner threads.<br/>
             
-            <li>innodb_max_dirty_pct:</li> <br/>
-            Percentage after which dirty page flush is prioritised. As soon as this level is reached page-cleaner thread kicks in.
+            <li><b>innodb_max_dirty_pct</b></li> 
+            Percentage after which dirty page flush is prioritised. As soon as this level is reached page-cleaner thread kicks in.<br/>
 
-            <li>innodb_buffer_pool_instances:</li> <br/>
-            The number of cache pools to be configured for MySQL instance.
+            <li><b>innodb_buffer_pool_instances</b></li>
+            The number of cache pools to be configured for MySQL instance.<br/>
 
-            <li>innodb_buffer_pool_size:</li> <br/>
-            The total size of the MySQL cache. This means the reserved RAM area for MySQL to cache in data read from files.
+            <li><b>innodb_buffer_pool_size</b></li>
+            The total size of the MySQL cache. This means the reserved RAM area for MySQL to cache in data read from files.<br/>
 
-            <li>innodb_page_size:</li> <br/>
-            The page size of the MySQL server buffer pool (cache). Any read/write happens in blocks i.e. in size of pages.
+            <li><b>innodb_page_size</b></li> 
+            The page size of the MySQL server buffer pool (cache). Any read/write happens in blocks i.e. in size of pages.<br/>
 
-            <li>innodb_buffer_pool_load_at_startup:</li> <br/>
+            <li><b>innodb_buffer_pool_load_at_startup</b></li> 
             Configure auto load of buffer pool on startup. This pre-fetches the records into the memory so as to prevent latencies when 
-            initial requests land on MySQL server.
+            initial requests land on MySQL server.<br/>
 
-            <li>slow_query_log:</li> <br/>
+            <li><b>slow_query_log</b></li>
             Log queries that execute slow. Any query which takes more than the specified amount is logged into a file where a developer 
             can see all the low performant queries.
         </ul>
@@ -86,7 +87,7 @@
         This actually also helps in faster reads not only for this most recently used data but also for the other data residing in 
         that page (<a href="https://en.wikipedia.org/wiki/Locality_of_reference" target="_blank">spatial locality</a>).<br/>
         The crux is that data is pulled from the file system into the RAM i.e. buffer-pool which remains there for faster retrieval.
-
+        <br/>
         <b><u>WRITE</u></b> <br/>
         So, let’s consider the case when data is already in buffer-pool( If it is not, it will be first read in the above specified way).
          When a write request arrives at the DB server, it marks the page as dirty and updates the data in RAM and the thread returns 

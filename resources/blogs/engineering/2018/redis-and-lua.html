@@ -34,7 +34,7 @@
             Lua is a powerful, efficient, lightweight, embeddable scripting language. Most of the cache server implementations 
             like REDIS, AEROSPIKE etc provide support to run LUA scripts on servers for macro-commands. <br/>
             LUA has a very low foot-print with really high speed maybe is the reason it has gained so much of attraction. <br/>
-            Fun Fact: <a href="" target="_blank">KONG</a> is written in lua.
+            <b>Fun Fact:</b> <a href="" target="_blank">KONG</a> is written in lua.
         </p>
 
         <h4>The Issue</h4>
@@ -48,10 +48,10 @@
             deleted the specified key. The UDF looked something like this,
 
             <div class="code">
-                local keys = redis.call('keys', '%s') 
-                &emsp;&emsp;for i,k in ipairs(keys) do    
-                &emsp;&emsp;&emsp;&emsp;local res = redis.call('del', k)
-                &emsp;&emsp;end
+                local keys = redis.call('keys', '%s') <br/>
+                &emsp;&emsp;for i,k in ipairs(keys) do    <br/>
+                &emsp;&emsp;&emsp;&emsp;local res = redis.call('del', k) <br/>
+                &emsp;&emsp;end <br/>
             </div>
 
             The UDF had caused issue earlier also (about 2 years ago) and was switched off back then by sending a patch. This happened 
@@ -144,7 +144,7 @@
     <br/><br/>
     <p>
         For the curious folks, You can read the redis source code by checking out the
-        <a href="https://github.com/redis/redis" target="_blank">repo</a>repo on github. 
+        <a href="https://github.com/redis/redis" target="_blank">repo</a> on github. 
     </p>
 
 </div>

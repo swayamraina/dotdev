@@ -79,12 +79,12 @@
             By blocking code, I mean not only AJAX requests but also functions that may take a long time to execute. Like these:
 
             <div class="code">
-                var i=0;
-                while(i&lt;1000000000) i++;
-
-                processImage = function () { 
-                &emsp;&emsp; ...
-                }
+                var i=0; <br/>
+                while(i&lt;1000000000) i++; <br/>
+                <br/>
+                processImage = function () { <br/>
+                &emsp;&emsp; ... <br/>
+                } <br/>
             </div>
         </p>
 
@@ -114,13 +114,13 @@
             Let’s see an example code to understand this,
             
             <div class="code">
-                console.log("Hi! "); 
-
-                setTimeout(function() { 
-                &emsp;&emsp;console.log("tech"); 
-                },5000); 
-
-                console.log("I &lt;3 ");
+                console.log("Hi! ");  <br/>
+                <br/>
+                setTimeout(function() { <br/>
+                &emsp;&emsp;console.log("tech"); <br/>
+                },5000); <br/>
+                <br/>
+                console.log("I &lt;3 ");<br/>
             </div>
 
             if we look at the code, it seems obvious setTimeout() will wait for 5 seconds and then fire off. Well, this is not the case 
@@ -129,13 +129,13 @@
             it will execute only when the call stack is empty.
 
             <div class="code">
-                console.log("Hi! "); 
-
-                setTimeout(function() { 
-                &emsp;&emsp;console.log("tech"); 
-                },0); 
-
-                console.log("I &lt;3 ");
+                console.log("Hi! "); <br/>
+                <br/>
+                setTimeout(function() { <br/>
+                &emsp;&emsp;console.log("tech"); <br/>
+                },0); <br/>
+                <br/>
+                console.log("I &lt;3 "); <br/>
             </div>
 
             The 0 ms timeout does not mean this will be executed immediately. But this function will first be submitted to the V8 for execution. 
@@ -146,12 +146,12 @@
             Similarly, all the webAPIs work the same way,
 
             <div class="code">
-                console.log("about to do a GET request");
-                $.get('https://www.google.co.in/search?q=swayam+raina', 
-                &emsp;&emsp;function(data) { 
-                &emsp;&emsp;&emsp;&emsp;console.log("completed network request"); 
-                &emsp;&emsp;}); 
-                console.log("GET request pushed to WebAPI block");
+                console.log("about to do a GET request"); <br/>
+                $.get('https://www.google.co.in/search?q=swayam+raina',  <br/>
+                &emsp;&emsp;function(data) { <br/>
+                &emsp;&emsp;&emsp;&emsp;console.log("completed network request"); <br/>
+                &emsp;&emsp;}); <br/>
+                console.log("GET request pushed to WebAPI block");<br/>
             </div>
 
             This is how async is established in V8. The block of code is sent to the webAPI for an XHR request which is then pushed to task 

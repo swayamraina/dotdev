@@ -13,6 +13,76 @@
             "link": "/blogs/engineering/2020/linux-networking",
             "tags": [ "api", "linux", "sockets" ],
             "date": "19.07.2020"
+        }, 
+        {
+            "title": "A brief into the MySQL PageCleaner",
+            "description": "",
+            "link": "/blogs/engineering/2019/mysql-page-cleaner",
+            "tags": [ "MySQL", "database", "page cleaner" ],
+            "date": "21.07.2019"
+        }, 
+        {
+            "title": "How distributed systems work?",
+            "description": "",
+            "link": "/blogs/engineering/2019/raft-protocol",
+            "tags": [ "distributed system", "replication", "database", "message queues" ],
+            "date": "20.02.2019"
+        }, 
+        {
+            "title": "Terrorizing REDIS with beautiful LUA",
+            "description": "",
+            "link": "/blogs/engineering/2018/redis-and-lua",
+            "tags": [ "redis", "lua", "stored procedures", "mongo" ],
+            "date": "18.12.2018"
+        }, 
+        {
+            "title": "Are we using DI correctly?",
+            "description": "",
+            "link": "/blogs/engineering/2018/dependency-injection",
+            "tags": [ "Spring boot", "java" ],
+            "date": "23.10,2018"
+        }, 
+        {
+            "title": "OracleDB materialized views",
+            "description": "",
+            "link": "/blogs/engineering/2018/oracle-materialized-views",
+            "tags": [ "oracle", "views", "plsql", "database" ],
+            "date": "29.09.2018"
+        }, 
+        {
+            "title": "Symmetric, Asymmetric JWTs",
+            "description": "",
+            "link": "/blogs/engineering/2019/symmeteric-asymmteric-jwt",
+            "tags": [ "json", "jwt", "authentication" ],
+            "date": "04.09.2018"
+        }, 
+        {
+            "title": "Why every Team should use GIT-HOOKS",
+            "description": "",
+            "link": "/blogs/engineering/2018/using-git-hooks",
+            "tags": [ "git", "automation", "ci-cd" ],
+            "date": "12.08.2018"
+        },
+        {
+            "title": "Just-In-Time Compilation",
+            "description": "",
+            "link": "/blogs/engineering/2018/java-and-jit",
+            "tags": [ "java", "javascript", "compiler", "interpreter" ],
+            "date": "29.07.2018"
+        },
+        {
+            "title": "JavaSCript V8 Runtime",
+            "description": "",
+            "link": "/blogs/engineering/2018/javascript-v8-runtime",
+            "tags": [ "javascript", "v8", "chrome", "nodejs" ],
+            "date": "12.08.2018"
+        },
+        {
+            "title": "Introducing TimSort",
+            "description": "",
+            "link": "/blogs/engineering/2018/sorting-in-java",
+            "tags": [ "java", "sorting", "jdk-8" ],
+            "date": "09.07.2018"
         }
     ]
 }

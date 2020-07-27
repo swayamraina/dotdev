@@ -1,0 +1,151 @@
+<div>
+
+    <h1>The RAFT Protocol</h1>
+    
+    <br/><br/>
+    <h3>RAFT</h3>
+
+    <p>
+        RAFT is a consensus algorithm for managing a replicated log. Every distributed system needs to replicate the 
+        state in order to get the resilient tag for a distributed system. <br/>
+        Almost every resilient distributed system implements the RAFT protocol.
+    </p>
+
+
+    <br/><br/>
+    <h3>Consensus / Quorum</h3>
+
+    <p>
+        Consensus might sound familiar if you are a Blockchain enthusiast. <br/>
+        A consensus in general terms means that the majority within the group agrees on a statement. In terms of RAFT or Distributed 
+        systems, consensus means that the majority of the nodes in a cluster agree of a particular change in the system. <br/>
+        This agreement of majority ensures, in case of a leader handoff, the new leader will be the one which was a part of the majority.
+    </p>
+
+
+    <br/><br/>
+    <h3>RPCs</h3>
+
+    <p>
+        Raft servers communicate using remote procedure calls (RPCs). These RPCs are responsible for replication in the cluster. <br/>
+        RequestVote RPCs are initiated by candidates during elections, AppendEntries RPCs are initiated by leaders to replicate 
+        log entries and to provide a form of a heartbeat and InstallSnapshot RPCs are initiated by the leader to ensure a node 
+        which lags the master/leader catches up quickly.
+
+        <ul>
+            <li><b>AppendEntries:</b> RPC for sending log data for state replication.</li>
+            <li><b>RequestVote:</b> RPC to initiate a leader election.</li>
+            <li><b>InstallSnapshot:</b> RPC to send a compact log file over the network for lagging/new node to catch-up with the cluster leader.</li>
+        </ul>
+    </p>
+
+
+    <br/><br/>
+    <h3>Leader Election</h3>
+
+    <p>
+        RAFT implements consensus by first electing a distinguished leader, then giving leader the responsibility for managing replicated log.
+        <br/><br/>
+        RAFT uses a heartbeat mechanism to trigger a leader election. When servers start up, they begin as followers. A server 
+        remains in follower state as long as it receives valid RPC from a leader or candidate. In case a follower does not receive 
+        an AppendEntries RPC in a specific amount of time (called election timeout), it votes to itself and sends out a RequestVote 
+        RPC to all the nodes. <br/>
+        Leaders send periodic heartbeats (AppendEntries RPCs that carry no log entries) to all followers in order to maintain their 
+        authority.
+        <br/><br/>
+        A candidate wins an election if it receives votes from a majority of the servers in the full cluster for the same term. 
+        Each server will vote for at most one candidate in a given term, on a first-come-first-served basis. Once a candidate 
+        wins an election, it becomes a leader, It then sends heartbeat messages to all of the other servers to establish its 
+        authority and prevent new elections.
+        <br/><br/>
+        While waiting for votes, a candidate may receive an AppendEntries RPC from another server claiming to be a leader.
+         If the leader’s term is at least as large as the candidate’s current term, then the candidate recognizes the leader 
+         as legitimate and returns to follower state. If the term in the RPC is smaller than the candidate’s current term, then 
+         the candidate rejects the RPC and continues in candidate state. <br/>
+        In case of a split vote, a timeout occurs, the term is incremented and new election starts.
+        <br/><br/>
+        To prevent frequent split votes, it is must to prevent two nodes starting an election at the same time. This means the 
+        election/heartbeat time-out should be randomized. So, RAFT uses randomized election timeouts to ensure split votes are 
+        rare. To prevent split votes in the first place, election timeouts are chosen randomly from a fixed interval of 150ms-300ms. <br/>
+        This spreads out the servers so that in most cases only a single server will time out; it wins the election and sends 
+        heartbeats before any other servers time out.
+        <br/><br/>
+        Also, nodes only respond to RequestVote RPCs if the commit log of the sender is at least as updated as the receiver. 
+        This ensures Leader completeness policy i.e. the leader will never have stale data.
+    </p>
+
+
+    <br/><br/>
+    <h3>Log Replication</h3>
+
+    <p>
+        Once a leader has been elected, it begins servicing client requests. Each client request contains a command to be executed 
+        by the replicated state machines. The leader appends the command to its log as a new entry, then issues AppendEntries RPCs 
+        in parallel to each of the other servers to replicate the entry. When the entry has been safely replicated, the leader 
+        applies the entry to its state machine and returns the result of that execution to the client. <br/>
+        If followers crash or run slowly, or if network packets are lost, the leader retries AppendEntries RPCs indefinitely until 
+        all followers eventually store all log entries.
+        <br/><br/>
+        The leader decides when it is safe to apply a log entry to the state machines, such an entry is called committed entry. 
+        A log entry is committed once the leader that created the entry has replicated it on a majority of the servers.
+    </p>
+
+
+    <br/><br/>
+    <h3>Cluster resizing</h3>
+
+    <p>
+        In real-world cluster changes frequently. Auto-scaling in and out makes cluster changes frequent. To handle these changes, 
+        one basic procedure is taking the entire cluster off-line, updating configuration files, and then restarting the cluster, 
+        this would leave the cluster unavailable during the changeover. This though is not only undesirable but also unacceptable.
+        In Raft the cluster first switches to a transitional configuration we call joint consensus, once the joint consensus has been 
+        committed, the system then transitions to the new configuration
+        <br/><br/>
+        So whenever there is a cluster change (i.e. a configuration change), the new configuration is passed around and is followed. 
+        Though only old members are allowed to vote until all the nodes receive the new configuration and new nodes are almost in sync 
+        with the old nodes. <br/>
+        The cluster then switches to the new configuration, once the temporary configuration is committed to all nodes.
+        <br/><br/>
+        One issue that needs solving in case of new node addition is master catch up. In RAFT, the new nodes do not participate in voting 
+        unless they are in sync with the master node. This is done so as to make sure this newly added node does not initiate a leader 
+        election and go on to become the master.
+    </p>
+
+
+    <br/><br/>
+    <h3>Log Compaction</h3>
+
+    <p>
+        As the log grows longer, it occupies more space and takes more time to replay. This will eventually cause availability 
+        problems, without some mechanism to discard obsolete information that has accumulated in the log. Snapshotting is the s
+        implest approach to compaction. <br/>
+        In snapshotting, the entire current system state is written to a snapshot on stable storage, then the entire log up to 
+        that point is discarded. 
+        <br/><br/>
+        See <a href="https://stackoverflow.com/questions/45040666/what-do-the-acronyms-aof-and-rdb-stand-for-in-redis/52492740#52492740" target="_blank">this</a> 
+        for Log compaction techniques in Redis.
+        <br/><br/>
+        There are two more issues that impact snapshotting performance. First, servers must decide when to snapshot. If a server 
+        snapshots too often, it wastes disk bandwidth, if it snapshots too infrequently, it risks exhausting its storage capacity, 
+        and it increases the time required to replay the log during restarts.
+    </p>
+
+
+    <br/><br/>
+    <h3>Client Interactions</h3>
+
+    <p>
+        Clients send all of their requests to the cluster leader. When a client first starts up, it connects to a randomly chosen 
+        server. If the client’s first choice is not the leader, that server will reject the client’s request and supply information
+         about the most recent leader it has heard from.
+    </p>
+
+
+    <br/><br/>
+    <p>
+        For the more curious folks, you can read the research paper 
+        <a href="https://raft.github.io/raft.pdf" target="_blank">here</a>
+    </p>
+
+
+</div>

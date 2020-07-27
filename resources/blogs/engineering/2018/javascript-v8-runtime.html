@@ -1,0 +1,199 @@
+<div>
+
+    <h1>Introduction to JavaSript V8 runtime</h1>
+
+    <br/><br/>
+    <p>
+        Javascript has always been a pain for every backend developer. You may dislike it but sometimes we do have to write JS. This article 
+        will be revolving around the Event Loop, a small but very important part of the entire V8 engine.
+        <br/><br/>
+        If you don’t know about V8, well it is the javascript runtime engine. V8 compiles javascript directly to native machine code 
+        before executing it. The compiled code is additionally optimized (and re-optimized) dynamically at runtime, based on heuristics of 
+        the code’s execution profile. <br/>
+        A quick fact, V8 is used by techs like NodeJS, MongoDB, Couchbase and many more.
+        <br/><br/>
+        <b>Let’s start a bit formally! What is JavaScript.?</b> <br/>
+        Well, Javascript is a single threaded non-blocking asynchronous concurrent programming language.
+        <br/><br/>
+        <i>Duh...!!!</i>
+        <br/><br/>
+        Single threaded simply means, The Javascript code you write is run on a single thread. Yes, No concurrency!
+        <br/><br/>
+        The first thought that should pop out of every tech person is, if it is single threaded how can it be non-blocking or concurrent. <br/>
+        Well, the answer is… BROWSERS!
+        <br/><br/>
+        Javascript itself is synchronous and blocking (and no one can change that) but the environment in which it is run can support these 
+        two. Developers clearly knew to achieve these two the browsers need to be real smart. <br/>
+        The browser provides various WebAPIs which a developer can leverage and let javascript behave in an asynchronous manner. I hope you 
+        get it now.
+    </p>
+
+
+    <br/><br/>
+    <h3>Components of javascript runtime</h3>
+
+    <p>
+        <ul>
+            <li>Call Stack</li>
+            <li>Heap</li>
+            <li>WebAPIs</li>
+            <li>Callback Queue</li>
+            <li>Event Loop</li>
+            <li>Render Queue</li>
+        </ul>
+
+        We will learn about them one by one. First two are straightforward and easy to understand.
+        
+        <br/><br/>
+        <h4>Call Stack</h4>
+
+        <p>
+            The call stack is a data structure which keeps information about the active functions (functions in execution) and prints 
+            out the information when an exception is thrown. <br/>
+            This is the area where the stack frames are maintained. Javascript is single threaded language, So this means it has only 
+            one call stack and sadly it can do only one thing at a time.
+        </p>
+
+
+        <br/><br/>
+        <h4>Heap</h4>
+
+        <p>
+            The heap is a portion where all the memory allocation takes place. All the objects that are created are stored in the heap 
+            section of the runtime.
+        </p>
+
+
+        <br/><br/>
+        <h4>WebAPIs</h4>
+
+        <p>
+            If we see the Chrome V8 source code, we’ll not find important javascript functions like setTimeout(), post(), get() etc. <br/>
+            These functions are provided as WebAPIs by the browser to make javascript behave as asynchronous and non-blocking. Any of 
+            the async work that needs to be performed is pushed to the browser to complete using one of many worker threads from the 
+            thread pool. 
+            <br/><br/>
+            But why do we need WebAPIs?
+            <br/><br/>
+            As said earlier, since javascript is a single threaded language. Any type of blocking code will kill the UI/UX of the application.
+            By blocking code, I mean not only AJAX requests but also functions that may take a long time to execute. Like these:
+
+            <div class="code">
+                var i=0;
+                while(i&lt;1000000000) i++;
+
+                processImage = function () { 
+                &emsp;&emsp; ...
+                }
+            </div>
+        </p>
+
+
+        <br/><br/>
+        <h4>Callback queue</h4>
+
+        <p>
+            To understand callback queue, we should first understand callbacks. <br/>
+            A callback function, also known as a higher-order function, is a function that is passed to another function (let’s call this 
+            other function “otherFunction”) as a parameter, and this callback function is called (or executed) inside the otherFunction. <br/>
+            So, the callback queue contains all the callbacks that are requested for execution.
+            <br/><br/>
+            All the functions sent to the webAPI by the V8 are pushed to the callback queue with the callback function once the response from 
+            the outgoing thread is received.
+        </p>
+
+
+        <br/><br/>
+        <h4>Event Loop</h4>
+
+        <p>
+            The Event loop is part of the runtime engine whose lone job is to look at the call stack and the task queue for changes. If the 
+            call stack is empty, the event loop picks up the first entry in the task queue (callback queue), if not empty, and pushes it to 
+            the call stack for execution.
+            <br/><br/>
+            Let’s see an example code to understand this,
+            
+            <div class="code">
+                console.log("Hi! "); 
+
+                setTimeout(function() { 
+                &emsp;&emsp;console.log("tech"); 
+                },5000); 
+
+                console.log("I &lt;3 ");
+            </div>
+
+            if we look at the code, it seems obvious setTimeout() will wait for 5 seconds and then fire off. Well, this is not the case 
+            always that it will fire off after 5 seconds. <br/>
+            Remember I told you JS is single threaded… Yes, it will only fire off when the thread is available to execute this code i.e 
+            it will execute only when the call stack is empty.
+
+            <div class="code">
+                console.log("Hi! "); 
+
+                setTimeout(function() { 
+                &emsp;&emsp;console.log("tech"); 
+                },0); 
+
+                console.log("I &lt;3 ");
+            </div>
+
+            The 0 ms timeout does not mean this will be executed immediately. But this function will first be submitted to the V8 for execution. 
+            Meanwhile the JS thread is free for execution and picks up the next execution statement. The V8 engine meantime pushes the submitted 
+            function’s callback to the callback queue. Once the call stack is empty, Event loop picks the callback function and submits to the JS 
+            thread for execution.
+            <br/><br/>
+            Similarly, all the webAPIs work the same way,
+
+            <div class="code">
+                console.log("about to do a GET request");
+                $.get('https://www.google.co.in/search?q=swayam+raina', 
+                &emsp;&emsp;function(data) { 
+                &emsp;&emsp;&emsp;&emsp;console.log("completed network request"); 
+                &emsp;&emsp;}); 
+                console.log("GET request pushed to WebAPI block");
+            </div>
+
+            This is how async is established in V8. The block of code is sent to the webAPI for an XHR request which is then pushed to task 
+            queue and eventually to the call stack.
+            <br/><br/>
+            The onClick() function is also similar. When we click a button, the onClick function is pushed to the webAPI for execution and a 
+            worker thread executes that part of the code.
+        </p>
+
+
+        <br/><br/>
+        <h4>Render queue</h4>
+
+        <p>
+            There are continuous actions being performed by the user. So the browser has to repaint the screen to maintain smooth functioning. 
+            Typically, browser repaints the screen after 16 ms i.e. at 60fps, but at the same time, it also has to execute the JS code written 
+            by the developer.<br/>
+            It cannot do a render if there is some code inside the call stack. Render is also treated as a callback, difference being render 
+            callback is given the highest priority (Well, the browser is a bit mean.. huh!) After 16 ms, the render callback is pushed to the 
+            front of render queue and the event loop now waits for the call stack to be cleared. As soon as it finds stack to be empty, it 
+            pushes the render callback for execution i.e. repaint of the screen takes place.
+        </p>
+
+    </p>
+
+
+    <br/><br/>
+    <h3>The BIG picture</h3>
+
+    <br/><br/>
+    <img 
+        class="image"
+        src="https://miro.medium.com/max/1280/0*KnuwYNzrH4oq61mP.png"
+    />
+    <br/><br/>
+
+    <p>
+        If you closely look at the idea, This led to the birth of event driven programming or more formally Reactive programming. <br/>
+        At every level, we can have a buffer queue where the threads can submit the tasks and return back to pick up new requests. 
+        The next level of thread pool can pick up tasks from this buffer queue and can either process them completely (if processing 
+        is contained to their system) or do some processing and then submit the task to another buffer queue where rest of the processing 
+        can happen.
+    </p>
+
+</div>

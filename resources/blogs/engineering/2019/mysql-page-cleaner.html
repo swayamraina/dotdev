@@ -1,0 +1,119 @@
+<div>
+
+    <h1>A brief into the MySQL PageCleaner</h1>
+
+    <br/><br/>
+    <h3>Production issue?</h3>
+
+    <p>
+        A few weeks earlier we faced a very peculiar issue in one of our service’s MySQL database. There was a sudden spike 
+        in both write-latency and read-latency graphs. <br/>
+        On checking the MySQL logs we found one specific error that raised suspicion. The log file showed the below error log,
+
+        <div class="code">
+            “InnoDB: page_cleaner: 1000ms intended loop took 8907ms. The settings might not be optimal”
+        </div>
+
+        Since I was new to MySQL, I went into the exact cause of the issue by studying what exactly happens in MySQL under the hood.
+        Let's understand the error log word by word;
+    </p>
+
+
+    <br/><br/>
+    <h3>MySQL basics</h3>
+
+    <br/><br/>
+    <h4>InnoDB</h4>
+
+    <p>
+        InnoDB is a transaction-safe (ACID compliant) highly-reliable and highly-performant storage engine for MySQL. It is designed 
+        for CPU efficiency and maximum performance when processing large data volumes. <br/>
+        InnoDB achieves ACID properties by implementing row-level locking. This strategy of row-level locking is different and more 
+        optimised from the one MyISAM uses. MyISAM uses table level-locking and hence is faster for reads as now it does not to do 
+        much computation for checking lock conditions but is not a good candidate for transactional use-cases.
+    </p>
+
+
+    <br/><br/>
+    <h4>Page Cleaner</h4>
+
+    <p>
+        Page-Cleaner in basic terms is a background thread in MySQL server. The responsibility of this thread is to read the dirty pages 
+        in the MySQL buffer pool and push the data into the disk for fault-tolerance so as to prevent any permanent data loss.
+        <br/><br/>
+        So this error log meant that one specific thread in MySQL was taking more time than usual to complete execution.
+    </p>
+
+
+    <br/><br/>
+    <h4>MySQL configuration</h4>
+
+    <p>
+        <ul>
+            <li>lru_scan_depth:</li> <br/>
+            The number of pages to be flushed from memory to disk in one go by the page-cleaner threads.
+            
+            <li>innodb_max_dirty_pct:</li> <br/>
+            Percentage after which dirty page flush is prioritised. As soon as this level is reached page-cleaner thread kicks in.
+
+            <li>innodb_buffer_pool_instances:</li> <br/>
+            The number of cache pools to be configured for MySQL instance.
+
+            <li>innodb_buffer_pool_size:</li> <br/>
+            The total size of the MySQL cache. This means the reserved RAM area for MySQL to cache in data read from files.
+
+            <li>innodb_page_size:</li> <br/>
+            The page size of the MySQL server buffer pool (cache). Any read/write happens in blocks i.e. in size of pages.
+
+            <li>innodb_buffer_pool_load_at_startup:</li> <br/>
+            Configure auto load of buffer pool on startup. This pre-fetches the records into the memory so as to prevent latencies when 
+            initial requests land on MySQL server.
+
+            <li>slow_query_log:</li> <br/>
+            Log queries that execute slow. Any query which takes more than the specified amount is logged into a file where a developer 
+            can see all the low performant queries.
+        </ul>
+    </p>
+
+
+    <br/><br/>
+    <h4>Internal working of MySQL</h4>
+
+    <p>
+        <b><u>READ</u></b> <br/>
+        Whenever a data is read for the first time, it is pulled from the DB server file system. This means the entire page content 
+        is read and store in the buffer-pool before returning the exact data. <br/>
+        This actually also helps in faster reads not only for this most recently used data but also for the other data residing in 
+        that page (<a href="https://en.wikipedia.org/wiki/Locality_of_reference" target="_blank">spatial locality</a>).<br/>
+        The crux is that data is pulled from the file system into the RAM i.e. buffer-pool which remains there for faster retrieval.
+
+        <b><u>WRITE</u></b> <br/>
+        So, let’s consider the case when data is already in buffer-pool( If it is not, it will be first read in the above specified way).
+         When a write request arrives at the DB server, it marks the page as dirty and updates the data in RAM and the thread returns 
+         with the value as success. <br/>
+         So the page-cleaner thread wakes after the configured amount of time periodically to scan all the buffer-pools for dirty 
+         pages and moving them to the file system.
+    </p>
+
+
+    <br/><br/>
+    <h3>Cause of the production issue</h3>
+
+    <p>
+        The issue we were basically facing can be pinned down to one of the following,
+        <ul>
+            <li>large number of dirty pages</li>
+            <li>large value of lru_scan_depth</li>
+        </ul>
+
+        The second property was easy to look at. One needs to run show variables; query to get the list of DB server properties. 
+        So, this value was actually not drastic to be causing the problem. <br/>
+        So, whenever there is an issue the first thought comes that it might be because of a traffic burst and we were in parallel 
+        looking for this also.
+        <br/><br/>
+        We found out that this particular service saw a huge spike in traffic a few minutes before this pager. Since our service 
+        was also write intensive, had seen a lot of writes during that time which resulted in a large number of dirty pages causing 
+        the page-cleaner to do more work in lesser amount of time.
+    </p>
+
+</div>

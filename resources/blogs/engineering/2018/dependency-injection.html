@@ -1,3 +1,117 @@
 <div>
-    test html
+
+    <h1>Are you using Dependency Injection correctly</h1>
+
+    <br/><br/>
+    <h3>What is Dependency Injection?</h3>
+
+    <p>
+        Technically, Dependency injection is a programming technique that makes a class independent of its dependencies. 
+        <br/><br/>
+        <i>Duh..!!!</i>
+        <br/><br/>
+        Yes, I understand, I also hate such definitions. Let’s talk informally from now on.
+        <br/><br/>
+        The concept of dependency injection says, One particular class or implementation should not be worried about the 
+        change in the implementation of a nested logic. The changing logic should be kept separate from the original class 
+        so that if any of the business rules or underneath logic changes, it should not require a change in the original 
+        class or implementation. 
+        <br/>
+        In more simpler words, if some definition residing at some place changes its dependencies should not change.
+        The original class or implementation should only be dependent on the final outcome or result of the dependent class 
+        and not on how the outcome was implemented. 
+    </p>
+
+
+    <br/><br/>
+    <h3>Types of Dependency Injection?</h3>
+
+    <p>
+        Since now you know what Dependency Injection is and why did it pop out, We will look at how can we actually inject our 
+        dependencies in code. There are three ways of doing this,
+        <ul>
+            <li>Property-based</li>
+            A property-based DI means directly autowiring the dependency while declaring the variable. This is not-at-all testable 
+            as this means you don’t have any way to actually initialise in case of unit-testing. Below is the (most evil) code,
+            <div class="code">
+                class Package { <br/>
+                    <br/>
+                    @Autowired private Device mobile; <br/>
+                    @Autowired private Charger charger; <br/>
+                    <br/>
+                } <br/>
+            </div>
+
+            <li>Setter-based</li>
+            A setter-based DI means autowiring the dependency using the setter of the variable. Below is the code,
+            <div class="code">
+                class Package { <br/>
+                    <br/>
+                    private Device mobile; <br/>
+                    private Charger charger; <br/>
+                    <br/>
+                    @Autowired public void setDevide (Device mobile) { <br/>
+                    &emsp;&emsp;this.mobile = mobile; <br/>
+                    } <br/>
+                    <br/>
+                    @Autowired public void setCharger (Charger charger) { <br/>
+                    &emsp;&emsp;this.charger = charger; <br/>
+                    } <br/>
+                    <br/>
+                } <br/>
+            </div>
+
+            <li>Constructor-based</li>
+            A constructor-based DI means autowiring the dependency only when the actual Object/Bean creation is done. This is more 
+            intuitive and testable. Below is the code,
+            <div class="code">
+                class Package { <br/>
+                    <br/>
+                    private Device mobile; <br/>
+                    private Charger charger; <br/>
+                    <br/>
+                    @Autowired public Package (Device mobile, Charger charger) { <br/>
+                    &emsp;&emsp;this.mobile = mobile; <br/>
+                    &emsp;&emsp;this.charger = charger; <br/>
+                    } <br/>
+                    <br/>
+                } <br/>
+            </div>
+        </ul>
+    </p>
+
+
+    <br/><br/>
+    <h3>Why prefer Constructor-based DI?</h3>
+
+    <p>
+        When you closely look at what Dependency Injection via constructors say you find it intuitive and the correct thing to do. <br/>
+        Constructor-based DI says, pass all the dependencies for the given class to my constructor. This means if one does not 
+        provide all the dependencies, object creation will not take place.
+        <br/><br/>
+        One might argue, we can always pass the dependencies as null and create the desired object. Yes, this is true, one can do 
+        this but passing null for resolving a dependency cannot be counted as a mistake or unintentional.
+        If someone does this, he/she will be fully aware of the consequences (one being the NullPointerException ).
+        <br/><br/>
+        If we consider an informal view of this, constructor-based DI says if you want to manufacture a new Handset (object), 
+        the manufacturer (developer) needs to keep the Mobile set (dependency 1), a Mobile charger (dependency 2), usage handbook (dependency 3) 
+        at the same time and then pack it for sale. In the case of the other two, this is not the case and the manufacturer has high 
+        chances of missing something in the packing which might lead to a poor review on Flipkart or Amazon.
+    </p>
+
+
+    <br/><br/>
+    <h3>What about Spring IOC?</h3>
+
+    <p>
+        Spring framework’s Inversion of Control is nothing but handling of the dependencies in your source code.
+        Spring came out with IoC and said Developers should not be concerned with service object creation but only with the business logic and rules
+        associated with them. <br/>
+        IoC underneath uses the principle of Dependency Injection for creation of Objects that can be used by developers without worrying about 
+        managing the memory. 
+        <br/><br/>
+        In a very crude definition, Spring creates singleton objects of these annotated classes and keeps them in a map from where these are 
+        passed on to every dependent classes to be used without consuminng any extra memory.
+    </p>
+
 </div>

@@ -1,0 +1,226 @@
+<div>
+
+    <h1>Sorting upgrade in JDK</h1>
+
+    <p>
+        <div class="code">
+            private void displayStudents(List<Student> students, Strategy strategy, Filter filter) { <br/>
+            &emsp;&emsp;if (null != filter) Filter.apply(students, filter); <br/>
+            &emsp;&emsp;if (null != strategy) { <br/>
+            &emsp;&emsp;&emsp;&emsp;Function strategyFunction = Strategy.getStrategy(strategy); <br/>
+            &emsp;&emsp;&emsp;&emsp;Collections.sort(students, Comparator.comparing(strategyFunction)); <br/>
+            &emsp;&emsp;} <br/>
+          } <br/>
+        </div>
+        The above code snippet has a call to the sort function which is used heavily in most of the application logic. This simple function 
+        call instantly reminds us of all the sorting algorithms that we studied back in our College days. <br/>
+        This simple looking function has changed a lot and is not the same as we knew it.
+    </p>
+
+    <br/><br/>
+    <h3>What was the issue?</h3>
+
+    <p>
+        It was the time when I was working for my previous employer on a feature enhancement. During testing on our STAGE environment, 
+        QA reported an abnormal behaviour while sorting the data on one particular interface in our application. Soon, this behaviour 
+        was seen on all the interfaces which involved sorting of data as a functionality. <br/>
+        Since, I was the DEV working on one of these interfaces I started looking into the problem and really came face to face with the 
+        reality that I didn’t knew about the most used stuff in JAVA. <br/>
+        All the sorting algorithms that were taught back in college days be it the famous Quick sort or Merge sort, JAVA choose none.
+        In my search of truth, I found out that people at Oracle had updated the sorting classes in JAVA when they introduced the new 1.7 version.
+        <br/><br/>
+        Our application initially was running on JAVA 6 with maven and Struts was being used (Yeah, it was an old project). I was a part 
+        when migration of this application to Spring was happening. Our servers though had already migrated from JBoss to Wildfly with 
+        JAVA 8 as default and maven to gradle.
+        <br/><br/>
+        Coming back to the issue, the issue reported was also then observed on our production environment (thankfully, our client wasn’t 
+        using the sorting feature regularly and this was never reported). The issue was actually because the old comparators that were 
+        written back then were improper and the JAVA update resulted in a situation where the comparator class started throwing a never 
+        seen before exception (at least for me!)
+
+        <div class="code">
+            Exception in thread "main" java.lang.IllegalArgumentException: Comparison method violates its general contract!
+            at java.util.TimSort.mergeLo(TimSort.java:777)
+            at java.util.TimSort.mergeAt(TimSort.java:514)
+            at java.util.TimSort.mergeForceCollapse(TimSort.java:457)
+            at java.util.TimSort.sort(TimSort.java:254)
+            at java.util.Arrays.sort(Arrays.java:1512)
+            at java.util.ArrayList.sort(ArrayList.java:1454)
+            at java.util.Collections.sort(Collections.java:175)
+                ...
+                ...
+        </div>
+    </p>
+
+
+    <br/><br/>
+    <h3>History</h3>
+
+    <p>
+        JAVA ditched Quick-Sort when it realised the true power of this new sorting algorithm, majorly because it preformed pretty 
+        well on real time data. Unlike most sorting algorithms, TimSort is rather new, it was invented in 2002 by Tim Peters 
+        (and named after him, Yes, he deserves this!). <br/>
+        Tim Sort was designed and accepted by python as its default sorting algorithm. Since then, it has been a standard sorting 
+        algorithm in Python, JAVA 7 & above and Android JDK 1.5 & above.
+    </p>
+
+
+    <br/><br/>
+    <h3>Basics</h3>
+
+    <p>
+        The algorithm is based on the idea that in real world, data-array contains ordered sub-arrays. And often it really is so. 
+        With such data, Tim sort goes ahead of all other algorithms. Do not expect any complex mathematical discoveries. 
+        The thing is that in reality, Tim sort is not a standalone algorithm but a hybrid one, an efficient combination of a number 
+        of other algorithms. The mechanism of the algorithm can be briefly explained as follows:
+        <ul>
+            <li>A particular algorithm is used to split the input array into sub-arrays.</li>
+            <li>Each sub-array is sorted with a simple Insertion sort.</li>
+            <li>The sorted sub-arrays are merged into one array with the use of Merge Sort.</li>
+        </ul>
+    </p>
+
+
+    <br/><br/>
+    <h3>The algorithm</h3>
+
+    <p>
+        N: the length of the input array <br/>
+        run: an ordered sub-array in the input array. At the same time, the order is non-descending or strictly descending, 
+        i.e. “a0 ≤ a1 ≤ a2 ≤ …» or «a0 > a1 > a2 > …” <br/>
+        minrun: as it was said above, in the first step of the algorithm, the input array is split into runs. minrun is a minimum 
+        length of such run. This number is calculated by a certain logics from the N number. 
+        <br/><br/>
+        Step1 — Calculate minrun
+        Step2 — Split the runs and sort them individually
+        Step3 — Merge the runs
+    </p>
+
+
+    <br/><br/>
+    <h3>Min-run and it’s calculation</h3>
+
+    <p>
+        <div>
+            /** <br/>
+            * Returns the minimum acceptable run length for an array of the specified <br/>
+            * length. <br/>
+            * <br/>
+            * @param n the length of the array to be sorted <br/>
+            * @return the length of the minimum run to be merged <br/>
+            */ <br/>
+            private static int minRunLength (int n) {<br/>
+                &emsp;&emsp;assert n &gt;= 0; <br/>
+                &emsp;&emsp;int r = 0; <br/>
+                &emsp;&emsp;while (n &gt;= MIN_MERGE) { <br/>
+                    &emsp;&emsp;&emsp;&emsp;r |= (n & 1); <br/>
+                    &emsp;&emsp;&emsp;&emsp;n &gt;&gt;= 1; <br/>
+                &emsp;&emsp;} <br/>
+                &emsp;&emsp;return n + r; <br/>
+            } <br/>
+        </div>
+
+        This method is used calculate the minimum run length for an array of specified length. <br/>
+        Here MIN_MERGE is the minimum length of array to apply merge sort. 
+        <br/><br/>
+        As said earlier, Tim sort is basically a combination of Insertion and Merge sort. To maintain high performance of this sorting 
+        algorithm, the length of the array to be sorted by a particular algorithm matters the most. For example, if we do an insertion 
+        sort on a large array or apply merge sort on a small array, such a choice will result in loss of performance and Tim sort will 
+        loose all of the head-start it achieves.
+        <br/><br/>
+        To take the advantage of selective sorting, it would be best if we apply insertion sort to small and partially sorted arrays. 
+        While applying merge sort to considerable sized arrays for merging to be efficient. <br/>
+        This is why calculation of min-run is very important part of the algorithm.
+        <br/><br/>
+        The main logic, the function here builds is, if presented array size is too small for merge sort, simply return 0 and go for 
+        insertion sort for this array. And if an array is of considerable length calculate the min run length.
+        <br/><br/>
+        This method will return :
+        
+        <div class="code">
+            MIN_MERGE/2 : if n is exact power of 2
+            n : if n &lt; MIN_MERGE
+            k (where MIN_MERGE/2 &lt;= k &lt;= MIN_MERGE)
+        </div>
+    </p>
+
+
+    <br/><br/>
+    <h3>Sorting individual runs</h3>
+
+    <p>
+        <div>
+            /**     <br/>
+            * @param a the array in which a run is to be counted and possibly reversed <br/>
+            * @param lo index of the first element in the run <br/>
+            * @param hi index after the last element that may be contained in the run. <br/>
+                        It is required that {@code lo &lt; hi}. <br/>
+            * @param c the comparator to used for the sort <br/>
+            * <br/>
+            * @return  the length of the run beginning at the specified position in <br/>
+            *          the specified array <br/>
+            */ <br/>
+            private static &lt;T&gt; int countRunAndMakeAscending(T[] a, int lo, int hi, Comparator&lt;? super T&gt; c) { <br/>
+                &emsp;&emsp;assert lo &lt; hi; <br/>
+                &emsp;&emsp;int runHi = lo + 1; <br/>
+                &emsp;&emsp;if (runHi == hi) return 1; <br/>
+                /&emsp;&emsp;/ Find end of run, and reverse range if descending <br/>
+                &emsp;&emsp;if (c.compare(a[runHi++], a[lo]) &lt; 0) {  <br/>
+                    &emsp;&emsp;&emsp;&emsp;   // Descending <br/>
+                    &emsp;&emsp;&emsp;&emsp;while (runHi &lt; hi && c.compare(a[runHi], a[runHi - 1]) &lt; 0) runHi++; <br/>
+                    &emsp;&emsp;&emsp;&emsp;reverseRange(a, lo, runHi); <br/>
+                &emsp;&emsp;} else {                               <br/>
+                    &emsp;&emsp;&emsp;&emsp;// Ascending <br/>
+                    &emsp;&emsp;&emsp;&emsp;while (runHi &lt; hi && c.compare(a[runHi], a[runHi - 1]) &gt;= 0) runHi++; <br/>
+                &emsp;&emsp;}  <br/>
+                &emsp;&emsp;return runHi - lo; <br/>
+            }
+        </div>
+
+        <p>
+            The returned number represents the number of elements it could find in sorted order (ascending or descending). <br/>
+            In case the elements are in descending order, they are reversed to ascending order.
+            <br/><br/>
+            Using countRunAndMakeAscending() method we sort the first part of the array. While for sorting of the second half i.e. 
+            non-sorted elements is done using Binary Sort.
+        </p>
+    </p>
+
+
+    <br/><br/>
+    <h3>Merginng</h3>
+
+    <p>
+        When a run is identified, its base address and length are pushed on a stack. The merging function is then called to see whether 
+        it should merge it with the proceeding run(s). <br/>
+        Merging adjacent runs of lengths A and B in-place is very difficult. Theoretical constructions are known that can do it, but 
+        they’re too difficult and slow for practical use. But if we have temp memory equal to min(A, B), it’s easy. By this we mean, the 
+        smaller array is copied into temporary array and that memory is used in the process of merging. Thus, an optimisation of reusing 
+        the memory.
+        <br/><br/>
+        So, Merging begins in the usual, obvious way, comparing the first element of A to the first of B, and moving B[0] to the merge area 
+        if it’s less than A[0], else moving A[0] to the merge area. Call this the “one pair at a time” mode. The only twist here is keeping 
+        track of how many times in a row “the winner” comes from the same run. If that count reaches MIN_GALLOP, we switch to “galloping mode”
+    </p>
+
+
+    <br/><br/>
+    <h3></h3>
+
+    <p>
+        Now, the input array is in a split state where each sub-array is sorted and are needed to be merged into the final sorted array. 
+        Instead of merging one by one Tim sort uses galloping.
+        <br/><br/>
+        Initially, we use exponential search to find the max index, as soon as we hit the limit we do a binary search to pin-point 
+        the index. Once the max index is confirmed, we apply the binary search. We search the first element of the array in the other 
+        array to find the index at which the merge should take place. <br/>
+        Till this index, we bulk copy the values in the final array. This process is repeated till all elements are merged. <br/>
+        This enhances the performance incredibly as a combination of exponential search and binary search is much much faster than 
+        linear search or binary search alone. Though, in a case of complete overlap, this can take time. But this is not the case 
+        every time and using this optimisation gives a thumbs-up majority of the time.
+        <br/><br/>
+        This sums up about TimSort and hope you got an idea on how sorting is internally implemented in JAVA.
+        I strongly recommend everyone to read through the code once.
+    </p>
+
+</div> 

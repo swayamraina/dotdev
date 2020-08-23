@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom'
 
 import Home from '../page-views/Home';
+import HomeNew from '../page-views/HomeNew';
 import Contact from '../page-views/Contact'
 import Blog from '../page-views/Blog'
 import Projects from '../page-views/Projects'
@@ -17,7 +18,7 @@ function Body (props) {
     return (
         <div className="body">
             <Switch>
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" component={HomeNew} />
                 <Route exact path="/dotdev" component={Home} />
                 <Route exact path="/blogs/:type/:year/:page" component={Content} />
                 <Route exact path="/blogs/:type" component={BlogHome} />

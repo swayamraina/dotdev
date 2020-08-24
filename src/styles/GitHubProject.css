@@ -1,0 +1,34 @@
+
+.github-project {
+    border: solid 2px black;
+    height: 80px;
+    width: 250px;
+    display: flex;
+    margin-right: 15px;
+    border-radius: 6px;
+}
+
+.repo-language-color {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.org-logo {
+    height: 80px;
+    width: 80px;
+    background-size: cover;
+}
+
+.github-project-desc {
+    list-style: none;
+}
+
+.github-row {
+    display: flex;
+    margin-bottom: 15px;
+}

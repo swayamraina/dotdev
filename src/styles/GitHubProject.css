@@ -6,6 +6,7 @@
     display: flex;
     margin-right: 15px;
     border-radius: 6px;
+    cursor: pointer;
 }
 
 .repo-language-color {

@@ -1,0 +1,29 @@
+
+.pinned-blog-main {
+    border-bottom: solid 2px black;
+    width: 400px;
+    height: 280px;
+    margin-right: 7%;
+    cursor: pointer;
+}
+
+.pinned-blog-container {
+    display: flex;
+    margin-bottom: 8%;
+}
+
+.pinned-blog-img {
+    width: 400px;
+    height: 180px;
+    margin-bottom: 4%;
+    background-size: cover;
+}
+
+.pinned-blog-img:hover {
+    opacity: .8;
+}
+
+.pinned-blog-desc {
+    margin-bottom: 3%;
+    margin-right: 20%;
+}

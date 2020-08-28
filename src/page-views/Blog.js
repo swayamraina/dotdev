@@ -47,7 +47,6 @@ function Blog () {
     return (
         <div>
             <div className="blog-desc">
-                <Quote quote="Beneath this mask there is more than flesh. Beneath this mask there is an idea! And ideas are bulletproof." />
                 <div className="text-holder-1">
                     Humans deep down are all writers; writing is nothing but flow of emotions through this medium.
                     My love for writing is known to the people around me and I write for the sheer joy of exploring and finding things out.
@@ -71,7 +70,7 @@ function Blog () {
             <div className="blog" >
                 {
                     type.map ( 
-                        t => < BlogType
+                        t => <BlogType
                                 key = {t.type}
                                 link = {t.link}
                                 title = {t.title}

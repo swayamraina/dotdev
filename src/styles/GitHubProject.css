@@ -2,7 +2,7 @@
 .github-project {
     border: solid 2px black;
     height: 80px;
-    width: 250px;
+    width: 260px;
     display: flex;
     margin-right: 15px;
     border-radius: 6px;
@@ -26,10 +26,20 @@
 }
 
 .github-project-desc {
-    list-style: none;
+    
 }
 
 .github-row {
     display: flex;
     margin-bottom: 15px;
+}
+
+.github-main {
+    margin-bottom: 8%;
+    margin-left: 4%;
+}
+
+.github-desc {
+    margin-bottom: 4%;
+    margin-right: 20%;
 }

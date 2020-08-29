@@ -18,7 +18,6 @@ function Body (props) {
         <div className="body">
             <Switch>
                 <Route exact path="/" component={Home} />
-                <Route exact path="/dotdev" component={Home} />
                 <Route exact path="/blogs/:type/:year/:page" component={Content} />
                 <Route exact path="/blogs/:type" component={BlogHome} />
                 <Route exact path="/blogs" component={Blog} />

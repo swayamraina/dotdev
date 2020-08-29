@@ -10,3 +10,12 @@ body {
 code {
   font-family: 'Reem Kufi';
 }
+
+a {
+  color: orangered;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}

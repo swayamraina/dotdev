@@ -35,6 +35,7 @@
 }
 
 .nav-bar-line {
-    border: solid 4px black;
+    background-color: black;
+    border: solid 3px black;
     margin-bottom: 5%;
 }

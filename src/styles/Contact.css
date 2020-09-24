@@ -73,6 +73,7 @@
 }
 
 .horizontal-bar {
+    background-color: black;
     border-bottom: solid 3px black;
     height: 1px;
     margin-top: 1.1%;

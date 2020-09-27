@@ -1,0 +1,22 @@
+
+.home-main {
+    display: flex;
+}
+
+.home-timeline {
+    padding-left: 10%;
+}
+
+.home-desc {
+    width: 70%;
+    display: block;
+    margin-left: 15%;
+}
+
+.me {
+    font-family: 'Reem Kufi';
+}
+
+.home-desc-text {
+    margin-bottom: 4%;
+}

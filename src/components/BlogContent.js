@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 
-import Loader from '../components/Loader'
+import Loader from './Loader'
 
-import '../styles/Content.css'
+import '../styles/BlogContent.css'
 
 
 
-function Content (props) {
+function BlogContent (props) {
 
     const branch = "master";
 
     const [ loading, setLoding ] = useState(false)
     const [ content, setContent ] = useState("")
+
+    console.log(props)
 
     const type = props.match.params.type
     const year = props.match.params.year
@@ -46,7 +48,7 @@ function Content (props) {
             <div>
                 <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
                 <br/><br/><br/><br/>
-                <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
+        <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
             </div>
         )
     }
@@ -58,4 +60,4 @@ function Content (props) {
 
 }
 
-export default Content;
+export default BlogContent;

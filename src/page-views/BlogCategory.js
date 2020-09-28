@@ -1,16 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../styles/BlogType.css'
+import '../styles/BlogCategory.css'
 import Quote from '../components/Quote';
 
 
 
-function BlogType (props) {
+function BlogCategory (props) {
 
     return (
         <div className="blog-type">
-            <Link to={props.link} className="blog-link">
+            <Link  className="blog-link" 
+                   to={{ 
+                       pathname: props.link,
+                       state: props.title
+                    }}>
+
                 <div className="blog-type-title"> {props.title} </div>
                 <div className="blog-type-desc"> 
                     <Quote quote={props.description} />
@@ -22,4 +27,4 @@ function BlogType (props) {
 
 }
 
-export default BlogType;
+export default BlogCategory;

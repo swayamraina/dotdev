@@ -1,16 +1,15 @@
 import React from 'react';
 
-import BlogType from './BlogType';
+import BlogCategory from './BlogCategory';
 
 import '../styles/Blog.css'
-import Quote from '../components/Quote';
 import Book from '../components/Book';
 
 
 
 function Blog () {
 
-    const type = [
+    const categories = [
         {
             "type": "engineering",
             "title": "Engineering",
@@ -69,8 +68,8 @@ function Blog () {
             </div>
             <div className="blog" >
                 {
-                    type.map ( 
-                        t => <BlogType
+                    categories.map ( 
+                        t => <BlogCategory
                                 key = {t.type}
                                 link = {t.link}
                                 title = {t.title}

@@ -10,12 +10,7 @@ function BlogCategory (props) {
 
     return (
         <div className="blog-type">
-            <Link  className="blog-link" 
-                   to={{ 
-                       pathname: props.link,
-                       state: props.title
-                    }}>
-
+            <Link to={props.link} className="blog-link">
                 <div className="blog-type-title"> {props.title} </div>
                 <div className="blog-type-desc"> 
                     <Quote quote={props.description} />

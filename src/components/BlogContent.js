@@ -13,8 +13,6 @@ function BlogContent (props) {
     const [ loading, setLoding ] = useState(false)
     const [ content, setContent ] = useState("")
 
-    console.log(props)
-
     const type = props.match.params.type
     const year = props.match.params.year
     const page = props.match.params.page
@@ -48,7 +46,7 @@ function BlogContent (props) {
             <div>
                 <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
                 <br/><br/><br/><br/>
-        <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
+                <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
             </div>
         )
     }

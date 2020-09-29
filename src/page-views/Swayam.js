@@ -25,10 +25,12 @@ function Swayam () {
                         And in love with,
                         <div>
                             <ul>
-                                <li><b><Link>⌦ Football</Link></b></li>
                                 <li><b><Link>⌦ Reading / Writing</Link></b></li>
                                 <li><b><Link>⌦ Finance</Link></b></li>
                                 <li><b><Link>⌦ Software Design</Link></b></li>
+                                <br/>
+                                <li><b><Link>⌦ Football</Link></b></li>
+                                <li><b><Link onClick={ ()=> window.open("https://www.chess.com/stats/live/rapid/swayamraina", "_blank") }>⌦ Chess</Link></b></li>
                             </ul>
                         </div>
                     </div>

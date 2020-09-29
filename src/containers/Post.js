@@ -11,7 +11,16 @@ function Post (props) {
 
     return (
         <div className="post">
-            <Link to={props.link} className="post-link">
+            <Link className="post-link"
+                to={{
+                    pathname: props.link,
+                    state: {
+                        title: props.title,
+                        date:  props.date,
+                        tags:  props.tags,
+                    }
+                }}>
+                    
                 <div className="post-head">
                     <div className="post-title">{props.title}</div>
                     <div className="post-date">{props.date}</div>

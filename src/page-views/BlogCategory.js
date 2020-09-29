@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../styles/BlogType.css'
+import '../styles/BlogCategory.css'
 import Quote from '../components/Quote';
 
 
 
-function BlogType (props) {
+function BlogCategory (props) {
 
     return (
         <div className="blog-type">
@@ -22,4 +22,4 @@ function BlogType (props) {
 
 }
 
-export default BlogType;
+export default BlogCategory;

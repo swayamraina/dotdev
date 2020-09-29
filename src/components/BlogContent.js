@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
-import Loader from '../components/Loader'
+import Loader from './Loader'
 
-import '../styles/Content.css'
+import '../styles/BlogContent.css'
 
 
 
-function Content (props) {
+function BlogContent (props) {
 
     const branch = "master";
 
@@ -58,4 +58,4 @@ function Content (props) {
 
 }
 
-export default Content;
+export default BlogContent;

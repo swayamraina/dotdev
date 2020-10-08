@@ -20,8 +20,8 @@ function CurrentlyReading () {
             </div>
             <div className="currently-reading-books" >
                 <PinnedBook cover="https://images-na.ssl-images-amazon.com/images/I/516b9EbjBOL._SX332_BO1,204,203,200_.jpg" />
-                <PinnedBook cover="https://images-na.ssl-images-amazon.com/images/I/41bgiGplMlL._SX301_BO1,204,203,200_.jpg" />
-                <Link className="previous-read" to="/blogs/books"/>
+                <PinnedBook cover="https://images-na.ssl-images-amazon.com/images/I/41jZMl+QUiL._SX297_BO1,204,203,200_.jpg" />
+                <Link className="previous-read" to="/books"/>
             </div>
         </div>
     );

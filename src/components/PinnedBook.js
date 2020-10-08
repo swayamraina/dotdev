@@ -9,7 +9,7 @@ import '../styles/PinnedBook.css'
 function PinnedBook (props) {
 
     const pagesAvailable = props.total && props.read
-    let bb = pagesAvailable ? <BookBar total="" read="" /> : <br/>;
+    let bb = pagesAvailable ? <BookBar total={props.total} read={props.read} /> : <br/>;
 
     return (
         <div className="pinned-book">

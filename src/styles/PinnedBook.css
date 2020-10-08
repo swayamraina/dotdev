@@ -1,8 +1,25 @@
 .pinned-book {
-    margin-left: 4%;
+    margin-left: 2%;
     margin-right: 4%;
+    margin-bottom: 7%;
+    display: inline-block;
 }
 
 .pinned-blog-desc {
     margin-bottom: 2%;
+}
+
+.books-home {
+    margin-top: 10%;
+    margin-bottom: 10%;
+    word-wrap: break-word;
+}
+
+.book-year-container {
+    margin-left: 5%;
+    margin-bottom: 5%;
+}
+
+.book-year {
+    margin-bottom: 5%;
 }

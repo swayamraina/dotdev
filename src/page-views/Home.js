@@ -7,7 +7,7 @@ function Home () {
 
     return (
         <div>
-            home                
+            WORK IN PROGRESS                
         </div>
         
     )

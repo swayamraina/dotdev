@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import Swayam from '../page-views/Swayam';
 import Home from '../page-views/Home';
+import Books from '../page-views/Books';
 import Contact from '../page-views/Contact'
 import Blog from '../page-views/Blog'
 import Projects from '../page-views/Projects'
@@ -25,6 +26,7 @@ function Body (props) {
                 <Route exact path="/blogs" component={Blog} />
                 <Route exact path="/projects" component={Projects} />
                 <Route exact path="/contact" component={Contact} />
+                <Route exact path="/books" component={Books} />
             </Switch>
         </div>
     );

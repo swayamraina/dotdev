@@ -14,4 +14,9 @@ export const bookMap = {
         {  "read": 4, "total": 4, "link": "https://m.media-amazon.com/images/I/51M3qfxdlcL.jpg"  },
     ],
 
+    "2018": [
+        {  "read": 179, "total": 179, "link": "https://images-na.ssl-images-amazon.com/images/I/410llGwMZGL._SX328_BO1,204,203,200_.jpg"  },
+        {  "read": 372, "total": 372, "link": "https://images-na.ssl-images-amazon.com/images/I/51vRNqL61aL._SX318_BO1,204,203,200_.jpg"  },
+    ]
+
 }

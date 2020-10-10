@@ -1,7 +1,7 @@
 .pinned-book {
     margin-left: 2%;
     margin-right: 4%;
-    margin-bottom: 7%;
+    margin-bottom: 5%;
     display: inline-block;
 }
 
@@ -17,9 +17,8 @@
 
 .book-year-container {
     margin-left: 5%;
-    margin-bottom: 5%;
 }
 
 .book-year {
-    margin-bottom: 5%;
+    margin-bottom: 3%;
 }

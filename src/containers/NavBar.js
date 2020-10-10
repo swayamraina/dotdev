@@ -13,7 +13,7 @@ function NavBar () {
                 <Link className="home-logo" to="/">&lt; swayamraina ! &gt;</Link>
                 <Link className="nav-link" to='/blogs'>Blog</Link>
                 <Link className="nav-link" to='/updates'>Updates</Link>
-                <Link className="nav-link" to="/projects">Projects</Link>
+                <Link className="nav-link" to="/books">Books</Link>
                 <Link className="nav-link" to="/contact">Contact</Link>
             </div>
             <div className="nav-bar-line"/>

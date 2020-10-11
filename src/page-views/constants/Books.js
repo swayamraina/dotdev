@@ -17,6 +17,8 @@ export const bookMap = {
     "2018": [
         {  "read": 179, "total": 179, "link": "https://images-na.ssl-images-amazon.com/images/I/410llGwMZGL._SX328_BO1,204,203,200_.jpg"  },
         {  "read": 372, "total": 372, "link": "https://images-na.ssl-images-amazon.com/images/I/51vRNqL61aL._SX318_BO1,204,203,200_.jpg"  },
+        {  "read": 296, "total": 296, "link": "https://images-na.ssl-images-amazon.com/images/I/51Z9p5AecCL._SX307_BO1,204,203,200_.jpg"  },
+        {  "read": 172, "total": 172, "link": "https://images-na.ssl-images-amazon.com/images/I/412xYouzyPL._SX323_BO1,204,203,200_.jpg"  },
     ]
 
 }

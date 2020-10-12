@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { bookMap } from './constants/Books'
+import { _2020 } from '../constants/books/2020';
+import { _2019 } from '../constants/books/2019';
+import { _2018 } from '../constants/books/2018';
 import PinnedBook from '../components/PinnedBook';
 
 
@@ -10,6 +12,12 @@ import '../styles/PinnedBook.css'
 
 function Books () {
 
+    const bookMap = {
+        "2020": _2020,
+        "2019": _2019,
+        "2018": _2018,
+    }
+
     const yearlyBooks = (bookMap, year) => {
         return (
             <div className="book-year-container">
@@ -18,7 +26,8 @@ function Books () {
                     {
                         bookMap[year].map ( 
                             b => <PinnedBook 
-                                cover = { b.link }
+                                title = { b.name }
+                                cover = { b.image }
                                 total = { b.total }
                                 read = { b.read }
                             /> 

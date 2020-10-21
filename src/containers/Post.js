@@ -23,9 +23,8 @@ function Post (props) {
                     
                 <div className="post-head">
                     <div className="post-title">{props.title}</div>
-                    <div className="post-date">{props.date}</div>
                 </div>
-                <div className="post-description">{props.description}</div>
+                <div className="post-description">{props.desc}</div>
                 <div className="post-tags">
                     {
                         props.tags.map ( 

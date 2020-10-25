@@ -20,7 +20,7 @@ function Post (props) {
                         tags:  props.tags,
                     }
                 }}>
-                    
+                <div className="post-image" style={{backgroundImage: `url(${props.image})`}} />
                 <div className="post-head">
                     <div className="post-title">{props.title}</div>
                 </div>

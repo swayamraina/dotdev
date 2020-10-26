@@ -13,9 +13,9 @@ import '../styles/PinnedBook.css'
 function Books () {
 
     const bookMap = {
-        "2020": _2020,
-        "2019": _2019,
         "2018": _2018,
+        "2019": _2019,
+        "2020": _2020,
     }
 
     const yearlyBooks = (bookMap, year) => {
@@ -29,14 +29,14 @@ function Books () {
                                 title = { b.name }
                                 cover = { b.image }
                                 total = { b.total }
-                                read = { b.read }
+                                read  = { b.read }
+                                link  = { b.link } 
                             /> 
                         )
                     }
                 </div>
             </div>
         );
-        
     }
 
     return (

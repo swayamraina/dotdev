@@ -20,7 +20,7 @@ function Swayam () {
                 <div className="home-desc">
                     <div className="home-desc-text">
                         <h1 className="me">Hi there! I'm Swayam</h1>
-                        I hail from 🌲🌲 <b><a href="https://en.wikipedia.org/wiki/Chandigarh" target="_blank">The City Beautiful</a></b> 🌲🌲<br/>
+                        I hail from 🌲🌲 <b><a href="https://en.wikipedia.org/wiki/Chandigarh" target="_blank"> Chandigarh (The City Beautiful) </a></b> 🌲🌲<br/>
                         Currently working <b><a href="https://www.swiggy.com/" target="_blank">@Swiggy</a></b>  🚀 <br/><br/>
                         And in love with,
                         <div>

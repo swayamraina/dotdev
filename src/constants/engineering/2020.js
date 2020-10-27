@@ -6,18 +6,8 @@ export const _2020 = [
         "description": "",
         "tags": [ "API", "Linux", "Socket" ],
         "date": "19.07.2020",
-        "image": "",
+        "image": "https://nexocode.com/blog/images/websockets-friend-or-foe/web-sockets.jpg",
         "link": "/blogs/engineering/2020/linux-networking",
-        "read": 0,
-    },
-
-    {
-        "title": "",
-        "description": "",
-        "tags": [],
-        "date": "",
-        "image": "",
-        "link": "",
         "read": 0,
     },
 

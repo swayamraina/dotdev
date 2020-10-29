@@ -23,8 +23,8 @@ function Post (props) {
                 <div className="post-image" style={{backgroundImage: `url(${props.image})`}} />
                 <div className="post-head">
                     <div className="post-title">{props.title}</div>
+                    <div className="post-description">{props.desc}</div>
                 </div>
-                <div className="post-description">{props.desc}</div>
                 <div className="post-tags">
                     {
                         props.tags.map ( 
@@ -32,7 +32,6 @@ function Post (props) {
                         )
                     }
                 </div>
-                <div className="vertical-line-bottom" />
             </Link>
         </div>
     );

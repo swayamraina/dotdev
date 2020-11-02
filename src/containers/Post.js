@@ -15,6 +15,7 @@ function Post (props) {
                 to={{
                     pathname: props.link,
                     state: {
+                        cover: props.image,
                         title: props.title,
                         date:  props.date,
                         tags:  props.tags,

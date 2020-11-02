@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import '../styles/BlogCategory.css'
 import Quote from '../components/Quote';
+
+import '../styles/BlogCategory.css'
 
 
 

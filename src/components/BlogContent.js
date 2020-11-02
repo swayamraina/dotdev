@@ -21,12 +21,12 @@ function BlogContent (props) {
 
     const handleSuccess = (data) => {
         setContent(data)
-        setTimeout( () => setLoding(false), 500)
+        setTimeout( () => setLoding(false), 500 )
     }
 
     const handleError = (data) => {
         setContent(data)
-        setTimeout( () => setLoding(false), 500)
+        setTimeout( () => setLoding(false), 500 )
     }
 
     useEffect (
@@ -41,10 +41,14 @@ function BlogContent (props) {
 
     const renderLoader = () => <Loader />
 
-    const renderContent = () => {
+    const renderContent = (state) => {
         return (
             <div>
-                <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
+                <div className="blog-content-cover" style={{backgroundImage: `url(${state.cover})`}} />
+                <div>
+                    <div className="blog-content-title">{state.title}</div>
+                    <div className="blog-content" dangerouslySetInnerHTML={{__html: content}} />
+                </div>
                 <br/><br/><br/><br/>
                 <h2 className="end-quote">"Stay hungry, Stay foolish..."</h2>
             </div>
@@ -53,7 +57,7 @@ function BlogContent (props) {
 
 
     return (
-        loading ? renderLoader() : renderContent()
+        loading ? renderLoader() : renderContent(props.location.state)
     );
 
 }

@@ -13,7 +13,9 @@ function PinnedBook (props) {
 
     return (
         <div className="pinned-book">
-            <div className="book-cover" style={{backgroundImage: `url(${props.cover})`}}/>
+            <div onClick = { () => { props.link.forEach(l => window.open(l, "_blank")) } }
+                className = "book-cover" 
+                style = {{backgroundImage: `url(${props.cover})`}}/>
             { bb }
         </div>
     );

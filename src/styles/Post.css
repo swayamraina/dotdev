@@ -1,19 +1,12 @@
 
-.vertical-line-bottom {
-    border: solid 1px black;
-    margin-left: 20%;
-    margin-right: 20%;
-    margin-bottom: 5%;
-    margin-top: 4%;
-}
-
 .post-head {
-    margin-left: 22%;
-    display: flex;
+    margin-left: 3%;
 }
 
 .post-title {
-    width: 63%;
+    font-weight: bolder;
+    width: 75%;
+    margin-top: 3%;
     margin-bottom: 2%;
     font-size: 1.2rem;
 }
@@ -24,15 +17,31 @@
 }
 
 .post-description {
-    margin-left: 22%;
-    margin-bottom: 1%;
+    margin-bottom: 5%;
 }
 
-.post-tags {
-    margin-left: 22%;
+.post-image {
+    height: 300px;
+    cursor: pointer;
+    background-size: cover;
+    margin-bottom: 1%;
 }
 
 .post-link {
     text-decoration: none;
     color: black;
+}
+
+.post-tags {
+    margin-left: 3%;
+    margin-bottom: 11%;
+}
+
+.post {
+    display: inline-block;
+    width: 40%;
+    margin-left: 2%;
+    margin-right: 5%;
+    margin-bottom: 7%;
+    box-shadow: 7px 7px 10px;
 }

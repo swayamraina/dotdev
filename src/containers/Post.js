@@ -15,17 +15,17 @@ function Post (props) {
                 to={{
                     pathname: props.link,
                     state: {
+                        cover: props.image,
                         title: props.title,
                         date:  props.date,
                         tags:  props.tags,
                     }
                 }}>
-                    
+                <div className="post-image" style={{backgroundImage: `url(${props.image})`}} />
                 <div className="post-head">
                     <div className="post-title">{props.title}</div>
-                    <div className="post-date">{props.date}</div>
+                    <div className="post-description">{props.desc}</div>
                 </div>
-                <div className="post-description">{props.description}</div>
                 <div className="post-tags">
                     {
                         props.tags.map ( 
@@ -33,7 +33,6 @@ function Post (props) {
                         )
                     }
                 </div>
-                <div className="vertical-line-bottom" />
             </Link>
         </div>
     );

@@ -28,8 +28,6 @@ function Books () {
                             b => <PinnedBook 
                                 title = { b.name }
                                 cover = { b.image }
-                                total = { b.total }
-                                read  = { b.read }
                                 link  = { b.link } 
                             /> 
                         )

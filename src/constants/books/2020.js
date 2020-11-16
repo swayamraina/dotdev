@@ -7,7 +7,6 @@ export const _2020 = [
         "link": [
             "https://www.amazon.in/Things-Every-Java-Programmer-Should/dp/1491952695",
         ],
-        "rating": "", "read": 64, "total": 259,
     },
 
     {
@@ -17,7 +16,6 @@ export const _2020 = [
             "https://www.amazon.in/Animal-Farm-George-Orwell/dp/0143416316",
             "https://www.flipkart.com/animal-farm/p/itmfbqreghbzkj7y",
         ],
-        "rating": 4.5, "read": 134, "total": 134,
     },
 
     {
@@ -37,7 +35,6 @@ export const _2020 = [
             "https://www.amazon.in/Asura-Vanquished-Story-Ravana-People/dp/938157605X",
             "https://www.flipkart.com/asura/p/itmetjhxgnfbfahf",
         ],
-        "rating": "", "read": 245, "total": 504,
     },
 
     {
@@ -47,7 +44,15 @@ export const _2020 = [
             "https://www.amazon.in/Man-Called-Ove-life-affirming-bestseller/dp/1444775812",
             "https://www.flipkart.com/man-called-ove/p/itmfbte7tbdwukcd"
         ],
-        "rating": "", "read": 245, "total": 368,
+    },
+
+    {
+        "name": "Ikigai",
+        "image": "https://images-na.ssl-images-amazon.com/images/I/41SG4SO4T9L._SX351_BO1,204,203,200_.jpg",
+        "link": [
+            "https://www.amazon.in/Ikigai-Japanese-secret-long-happy-ebook/dp/B073D36KNM",
+            "https://www.flipkart.com/ikigai-japanese-secret-long-happy-life/p/itmf6tphzunajmgh?pid=9781786330895"
+        ]
     },
 
 ]

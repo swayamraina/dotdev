@@ -16,7 +16,7 @@ function GitHubProjects () {
                 A very beautifully explained article on <a href="https://dev.to/brianverm/how-4-lines-of-java-code-end-up-in-518772-lines-in-production-h7o" target="_blank"><b>[ Your 4 LOC is 50K LOC in production ]</b></a> makes 
                 one realise how dependent a software is on open-source softwares. Almost all projects 
                 are built using some very famous open-source libraries and frameworks. <br/>
-                Understanding this, I always try to give back to the community by contributing to new feature requests, bug fixes or even helping people on StackOverflow. <br/><br/>
+                Understanding this, I always try to give back to the community by contributing to new feature requests, bug fixes or even helping people on <a href="https://stackoverflow.com/users/6183182/swayamraina" target="_blank"><b>[ StackOverflow ]</b></a>. <br/><br/>
                 Here are a few github repos I have contributed to,
             </div>
             <div className="github-main">

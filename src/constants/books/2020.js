@@ -55,4 +55,13 @@ export const _2020 = [
         ]
     },
 
+    {
+        "name": "TATA Nano",
+        "image": "https://pictures.abebooks.com/OLDBOOK/11892317749.jpg",
+        "link": [
+            "https://www.amazon.in/Tata-Nano-Peoples-Car-Thakur/dp/8184992009",
+            "https://www.flipkart.com/tata-nano-people-s-car/p/itmdyuphttusjtpv"
+        ],
+    },
+
 ]

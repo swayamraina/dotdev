@@ -38,15 +38,6 @@ export const _2020 = [
     },
 
     {
-        "name": "Man called Ove",
-        "image": "https://images-na.ssl-images-amazon.com/images/I/519L6FBdlXL._SX326_BO1,204,203,200_.jpg",
-        "link": [ 
-            "https://www.amazon.in/Man-Called-Ove-life-affirming-bestseller/dp/1444775812",
-            "https://www.flipkart.com/man-called-ove/p/itmfbte7tbdwukcd"
-        ],
-    },
-
-    {
         "name": "Ikigai",
         "image": "https://images-na.ssl-images-amazon.com/images/I/41SG4SO4T9L._SX351_BO1,204,203,200_.jpg",
         "link": [
@@ -61,6 +52,15 @@ export const _2020 = [
         "link": [
             "https://www.amazon.in/Tata-Nano-Peoples-Car-Thakur/dp/8184992009",
             "https://www.flipkart.com/tata-nano-people-s-car/p/itmdyuphttusjtpv"
+        ],
+    },
+
+    {
+        "name": "The Little Book That Builds Wealth",
+        "image": "https://m.media-amazon.com/images/I/51pKWSU7U8L.jpg",
+        "link": [
+            "https://www.amazon.in/dp/B008L045N4",
+            "https://www.flipkart.com/little-book-builds-wealth/p/itmfbnxjptbnwqxd"
         ],
     },
 

@@ -14,7 +14,6 @@ function NavBar () {
                 <Link className="nav-link" to='/blogs'>Blog</Link>
                 <Link className="nav-link" to='/updates'>Updates</Link>
                 <Link className="nav-link" to="/books">Books</Link>
-                <Link className="nav-link" to="/contact">Contact</Link>
             </div>
         </div>
     );

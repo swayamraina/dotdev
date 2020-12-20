@@ -64,4 +64,13 @@ export const _2020 = [
         ],
     },
 
+    {
+        "name": "Investing Habits",
+        "image": "https://images-na.ssl-images-amazon.com/images/I/41BTli9rvEL._SX331_BO1,204,203,200_.jpg",
+        "link": [
+            "https://www.amazon.in/Investing-Habits-Beginner%C2%92s-Growing-Market/dp/152377228X",
+            "https://www.flipkart.com/investing-habits/p/itmb9ce60eeffc38"
+        ],
+    },
+
 ]

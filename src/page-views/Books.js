@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 
-import { _2020 } from '../constants/books/2020';
-import { _2019 } from '../constants/books/2019';
+
 import { _2018 } from '../constants/books/2018';
+import { _2019 } from '../constants/books/2019';
+import { _2020 } from '../constants/books/2020';
+import { _2021 } from '../constants/books/2021';
 import PinnedBook from '../components/PinnedBook';
 
 
@@ -15,12 +17,14 @@ function Books () {
 
     const [ toggle2018, setToggle2018 ] = useState(false)
     const [ toggle2019, setToggle2019 ] = useState(false)
-    const [ toggle2020, setToggle2020 ] = useState(true)
+    const [ toggle2020, setToggle2020 ] = useState(false)
+    const [ toggle2021, setToggle2021 ] = useState(true)
 
     const bookMap = {
         "2018": _2018,
         "2019": _2019,
         "2020": _2020,
+        "2021": _2021,
     }
 
     const getState  = (year) => {
@@ -29,6 +33,7 @@ function Books () {
             case "2018": display = toggle2018; break;
             case "2019": display = toggle2019; break;
             case "2020": display = toggle2020; break;
+            case "2021": display = toggle2021; break;
         }
         return display;
     }
@@ -38,6 +43,7 @@ function Books () {
             case "2018": setToggle2018(!toggle2018); return;
             case "2019": setToggle2019(!toggle2019); return;
             case "2020": setToggle2020(!toggle2020); return;
+            case "2021": setToggle2021(!toggle2021); return;
         }
     }
 

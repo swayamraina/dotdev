@@ -34,6 +34,15 @@ export const _2021 = [
         ],
     },
 
+    {
+        "name": "The Seasons of Life",
+        "image": "https://m.media-amazon.com/images/I/41CPF0YS2EL.jpg",
+        "link": [
+            "https://www.amazon.in/Seasons-Life-Jim-Rohn-ebook/dp/B005IRPAO6",
+            "https://www.flipkart.com/the-seasons-of-life/p/itmdf4m5e5bt2zd8",
+        ],
+    },
+
     
 
 ]

@@ -25,4 +25,15 @@ export const _2021 = [
         ],
     },
 
+    {
+        "name": "Daily Rituals",
+        "image": "https://images-na.ssl-images-amazon.com/images/I/51dw-xmLLgL._SX335_BO1,204,203,200_.jpg",
+        "link": [
+            "https://www.amazon.in/Daily-Rituals-How-Artists-Work/dp/0307273601",
+            "https://www.flipkart.com/daily-rituals/p/itmfcymhnycqkhg2",
+        ],
+    },
+
+    
+
 ]

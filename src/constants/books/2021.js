@@ -43,6 +43,13 @@ export const _2021 = [
         ],
     },
 
-    
+    {
+        "name": "Concurrency in Go",
+        "image": "https://m.media-amazon.com/images/I/51A95VkLj+L.jpg",
+        "link": [
+            "https://www.amazon.in/Concurrency-Go-Tools-Techniques-Developers-ebook/dp/B0742NH2SG",
+            "https://www.flipkart.com/concurrency-in-go/p/itmfyda3nzuh9tqp",
+        ],
+    },
 
 ]
